@@ -1,0 +1,10 @@
+body {
+  margin: 2em;
+  font-family: sans-serif;
+}
+
+.plot {
+  width: 800px;
+  height: 600px;
+  background-color: #eee;
+}
