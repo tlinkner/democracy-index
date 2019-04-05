@@ -1,5 +1,6 @@
 library(tidyverse)
 library(jsonlite)
+library(corrgram)
 
 
 
@@ -11,6 +12,66 @@ religion <- read_json("../webpack/dist/data/religion.json", simplifyVector = TRU
 data_wide <- read_json("../webpack/dist/data/data_wide.json", simplifyVector = TRUE)
 data_long <- read_json("../webpack/dist/data/data_long.json", simplifyVector = TRUE)
 data_long <- arrange(data_long, desc(demScore))
+
+
+
+# ---------------------------------------------------------
+# calculate percents
+
+# normalize as percent of all religions
+data_wide$christianPct <- data_wide$christian / data_wide$allReligions
+data_wide$muslimPct <- data_wide$muslim / data_wide$allReligions
+data_wide$unaffiliatedPct <- data_wide$unaffiliated / data_wide$allReligions
+data_wide$hinduPct <- data_wide$hindu / data_wide$allReligions
+data_wide$buddhistPct <- data_wide$buddhist / data_wide$allReligions
+data_wide$folkReligionPct <- data_wide$folkReligion / data_wide$allReligions
+data_wide$otherReligionPct <- data_wide$otherReligion / data_wide$allReligions
+data_wide$jewishPct <- data_wide$jewish / data_wide$allReligions
+
+
+# ---------------------------------------------------------
+# exmaine correlations
+
+# plot correlation of religions composition against democracy index factors
+pctCols <- c(
+  "demScore",
+  "demPluralism",
+  "demFunctioning",
+  "demParticipation",
+  "demCulture",
+  "demCivil",
+  "christianPct",
+  "muslimPct",
+  "unaffiliatedPct",
+  "hinduPct",
+  "buddhistPct",
+  "folkReligionPct",
+  "otherReligionPct",
+  "jewishPct"
+)
+
+corrgram(data_wide[,pctCols], upper.panel=panel.pts, lower=panel.pie, main="Correlation by Composition (Percent)")
+
+
+# plot correlation of religions population against democracy index factors
+popCols <- c(
+  "demScore",
+  "demPluralism",
+  "demFunctioning",
+  "demParticipation",
+  "demCulture",
+  "demCivil",
+  "christian",
+  "muslim",
+  "unaffiliated",
+  "hindu",
+  "buddhist",
+  "folkReligion",
+  "otherReligion",
+  "jewish"
+)
+
+corrgram(data_wide[,popCols], upper.panel=panel.pts, lower=panel.pie, main="Correlation by Population")
 
 
 
@@ -187,8 +248,4 @@ ggplot(authoritarian, aes(x=religion, y=count)) +
   scale_y_continuous(labels = scales::comma, limits=c(NA, 1000000000)) +
   coord_flip() +
   labs(title = "Religion by Authoritarian")
-
-
-
-
 
