@@ -252,3 +252,20 @@ ggplot(authoritarian, aes(x=religion, y=count)) +
 
 
 
+# plot democracy category by population per religion
+ggplot(data_long, aes(x=religion, y=count, fill=demCategory)) +
+  geom_bar(stat="sum") +
+  scale_y_continuous(labels = scales::comma, limits=c(NA, 1000000000)) +
+  coord_flip() +
+  labs(title = "Democracy Category by Population per Religion")
+
+
+
+# plot democracy category by population per geo region
+ggplot(data_long, aes(x=region, y=count, fill=demCategory)) +
+  geom_bar(stat="sum") +
+  scale_y_continuous(labels = scales::comma, limits=c(NA, 1000000000)) +
+  coord_flip() +
+  labs(title = "Democracy Category by Population per Geographi Region")
+
+
