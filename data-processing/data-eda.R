@@ -81,7 +81,16 @@ corrgram(data_wide[,popCols], upper.panel=panel.pts, lower=panel.pie, main="Corr
 # plot all countries ordered by democracy index score
 ggplot(data_wide, aes(x=reorder(country, demScore), y=demScore, fill=demCategory)) +
   geom_bar(stat="identity") +
-  coord_flip()
+  coord_flip() +
+  labs(title="All Countries Orded by Democracy Index Score", x="Country", y="Democracy Index Rating")
+
+
+
+# show all countries sorted by region
+ggplot(data_wide, aes(x=reorder(country, region), y=demScore, fill=demCategory)) +
+  geom_bar(stat="identity") +
+  coord_flip() + 
+  labs(title="All Countries Orded by Democracy Index Sorted by Region", x="Country", y="Democracy Index Rating")
 
 
 
@@ -91,7 +100,7 @@ d.muslim <- subset(data_wide, muslim > 0.5)
 ggplot(d.muslim, aes(x=reorder(country, demScore), y=demScore, fill=demCategory)) +
   geom_bar(stat="identity") +
   coord_flip() +
-  labs(title="> 50% Muslim countries orded by Democracy Index", x="Country", y="Democracy Index Rating")
+  labs(title="> 50% Muslim Countries Orded by Democracy Index", x="Country", y="Democracy Index Rating")
 
 
 # show democracy index by majority christian countries
@@ -100,15 +109,7 @@ d.christian <- subset(data_wide, christian > 0.5)
 ggplot(d.christian, aes(x=reorder(country, demScore), y=demScore, fill=demCategory)) +
   geom_bar(stat="identity") +
   coord_flip() +
-  labs(title="> 50% Christian countries orded by Democracy Index", x="Country", y="Democracy Index Rating")
-
-
-# show all countries sorted by region
-ggplot(data_wide, aes(x=reorder(country, region), y=demScore, fill=demCategory)) +
-  geom_bar(stat="identity") +
-  coord_flip() + 
-  labs(title="All countries orded by Democracy Index sorted by Region", x="Country", y="Democracy Index Rating")
-
+  labs(title="> 50% Christian Countries Orded by Democracy Index", x="Country", y="Democracy Index Rating")
 
 
 # show all countries ordered by muslim population
@@ -248,4 +249,6 @@ ggplot(authoritarian, aes(x=religion, y=count)) +
   scale_y_continuous(labels = scales::comma, limits=c(NA, 1000000000)) +
   coord_flip() +
   labs(title = "Religion by Authoritarian")
+
+
 
