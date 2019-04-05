@@ -1,10 +1,61 @@
+* {
+  box-sizing: border-box;
+}
+
 body {
-  margin: 2em;
+  margin: 0;
   font-family: sans-serif;
 }
 
-.plot {
-  width: 800px;
-  height: 600px;
+.header {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0.5em 2em;
+  position: fixed;
+  top: 0;
+  right: 0;
+  left: 0;
+  background: rgba(0,0,0,0.1);
+}
+
+.header h1 {
+  font-size: 1em;
+}
+
+.footer {
+  box-sizing: border-box;
+  margin: 0 auto;
+  width: 1200px;
+  color:  #999;
+}
+
+.layout {
+  box-sizing: border-box;
+  margin: 4.5em auto 0 auto;
+  max-width: 1200px;
+}
+
+.chart {
   background-color: #eee;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
+.chart_header {
+  width: 100%;
+  height: 3em;
+}
+
+.chart_header h2 {
+  margin: 0;
+  line-height: 2em;
+}
+
+.chart_control {
+  width: 33.33%;
+}
+
+.chart_cartogram {
+  width: 66%;
 }
