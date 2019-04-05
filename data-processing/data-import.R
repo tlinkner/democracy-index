@@ -33,14 +33,14 @@ religion <-  read_excel("raw-data/Religious_Composition_by_Country_2010-2050.xls
 # remove excel id column
 religion$row_number <- NULL
 
+# only use level 1, not regional data
+religion <- religion[religion$level == 1,]
+
 # remove level key
 religion$level <- NULL
 
 # remove nation foreign key
 religion$Nation_fk <- NULL
-
-# only use level 1, not regional data
-religion <- religion[religion$level == 1,]
 
 # only use 2010 values
 religion$Year <- as.numeric(religion$Year)
