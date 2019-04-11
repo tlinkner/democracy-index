@@ -12,7 +12,7 @@
 <script src="d3.min.js"></script>  
 <script>
 
-// working stacked bar charts for values
+// working stacked bar charts for composition
 
 const dataRaw = [
   {key:"cat1",color:"red",value:5},
@@ -27,14 +27,20 @@ const dataRaw = [
 
 const dataNested = d3.nest()
   .key(d => d.key)
-  .entries(dataRaw);
+  .entries(dataRaw)
+  .map(d=>{
+    d.total = d3.sum(d.values,d=>d.value)
+    d.values = d.values.map(j=>{
+      j.pct = j.value / d.total;
+      return j;
+    })
+    return d;
+  })
   
 const mm = d3.nest()
   .key(d=>d.key)
   .rollup(values => d3.sum(values, d => d.value))
   .entries(dataRaw)
-
-const maxValue = d3.max(mm,d=>d.value)
 
 const W = 400;
 const H = 300;
@@ -55,7 +61,7 @@ const svg = d3.select(".plot")
   .attr("transform", `translate(${m.l},${m.t})`);
 
 const sx = d3.scaleLinear()
-  .domain([0, maxValue])
+  .domain([0, 1])
   .rangeRound([0,w]);  
 
 
@@ -75,9 +81,9 @@ const plot = svg.selectAll(".line")
       .enter()
         .append("rect")
         .attr("class","bar")
-        .attr("x",(j,i)=>sx(d3.sum(d.values.slice(0,i),j=>j.value)))
+        .attr("x",(j,i)=>sx(d3.sum(d.values.slice(0,i),j=>j.pct)))
         .attr("y",0)
-        .attr("width",j=>sx(j.value))
+        .attr("width",j=>sx(j.pct))
         .attr("height",20)
         .attr("fill",j=>j.color)
   })
