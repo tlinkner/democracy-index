@@ -6,6 +6,11 @@
 <style>
 .plot {
   background-color: #eee;
+  width: 1200px;
+  height: 600px;
+}
+svg {
+  border: 1px dashed red;
 }
 </style>
 </head>
@@ -14,29 +19,31 @@
 <script src="d3.min.js"></script>  
 <script>
 
+// Working force layout cartogram
+
+let plot = d3.select(".plot")
+
+const w = plot.node().clientWidth;
+const h = plot.node().clientHeight;
+
+plot = plot
+  .append("svg")
+  .attr("width",w)
+  .attr("height",h);
+
 const countryPromise = d3.json("data_countries.json")
 
 Promise.all([countryPromise])
 	.then(function([countryData]){
-    
-    const plot = d3.select(".plot")
-      .append("svg")
-      .attr("width",800)
-      .attr("height",800);
       
-      
-    d = countryData.slice(0,5);
-    
-    drawMap(plot, d);
+    drawMap(plot, countryData);
     
   });
   
 const drawMap = function(plot, data){
-
-  const w = plot.node().clientWidth;
-  const h = plot.node().clientHeight;
   
-  const projection = d3.geoMercator();
+  const projection = d3.geoEquirectangular()
+    .scale((w/640)*100).translate([w/2, h/2])
 
   console.log(data);
 
@@ -46,25 +53,30 @@ const drawMap = function(plot, data){
     return d;
   });
   
-  const dots = plot.selectAll('.node')
-    .data(dataXY)
-    .enter()
-    .append('circle')
-    .attr('class','node')
-    .attr('r', 30)
-    .attr('cx', d => d.x)
-    .attr('cy', d => d.y)
-    .attr("data-country",d => d.country)
-    .attr("fill","red")
-    .attr("opacity",0.5)
-    
-    const simulation = d3.forceSimulation(dataXY)
-        .force("charge", d3.forceCollide().radius(6))
-        .on("tick", ticked);
+  var simulation = d3.forceSimulation(dataXY)
+    .force('collision', d3.forceCollide().radius(5))
+    .on('tick', ticked);
 
-    function ticked() {
-      console.log("t");
-    }  
+  function ticked() {
+    var u = plot.selectAll('circle')
+      .data(dataXY)
+
+    u.enter()
+      .append('circle')
+      .attr('r', 5)
+      .merge(u)
+      .attr('cx', function(d) {
+        return d.x
+      })
+      .attr('cy', function(d) {
+        return d.y
+      })
+      .attr("fill","red")
+      .attr("opacity",0.5)
+      .attr("data-country",d=>d.country)
+
+    u.exit().remove()
+  }
     
 
 }
