@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Document</title>
+<style>
+.plot {margin: 2em; width: 600px; height: 400px; background-color: #eee;}
+</style>
+</head>
+<body>
+<div class="plot"></div>
+<script src="d3.min.js"></script>  
+<script>
+
+const data = [
+  {key:"cat1",values:[
+    {color:"red",value:5},
+    {color:"blue",value:4},
+    {color:"green",value:2}
+  ]},
+  {key:"cat2",values:[
+    {color:"red",value:1},
+    {color:"blue",value:3},
+    {color:"green",value:4}
+  ]}
+];
+
+const m = {t: 20, r: 50, b: 30, l: 50};
+const w = 400 - m.l - m.r;
+const h = 300 - m.t - m.b;
+
+var x = d3.scaleOrdinal().range([0, w]);
+var y = d3.scaleLinear().range([h, 0]);
+
+const svg = d3.select(".plot")
+  .append("svg")
+  .attr("width", w + m.l + m.r)
+  .attr("height", h + m.t + m.b)
+  .append("g")
+  .attr("transform", `translate(${m.l},${m.t})`);
+  
+  
+
+
+
+
+
+
+</script>  
+</body>
+</html>

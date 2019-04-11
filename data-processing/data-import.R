@@ -1,6 +1,7 @@
 library(tidyverse)
 library(readxl)
 library(jsonlite)
+library(plyr)
 
 
 
@@ -22,6 +23,55 @@ names(democracyIndex) <- c(
   "demCivil", 
   "demCategory"  
 )
+
+
+
+# ---------------------------------------------------------
+# geocode data
+# https://opendata.socrata.com/dataset/Country-List-ISO-3166-Codes-Latitude-Longitude/mnkm-8ram/data
+
+geoCode <- read_csv("raw-data/Country_List_ISO_3166_Codes_Latitude_Longitude.csv")
+# remove unwanted columns
+geoCode$`Alpha-2 code` <- NULL
+geoCode$`Numeric code` <- NULL
+geoCode$Icon <- NULL
+
+# set names
+names(geoCode) <- c("country","code","lat","lng")
+
+# find country names that do not match
+length(setdiff(democracyIndex$country, geoCode$country))
+
+# 18 need updating
+replaceCountries <- c(
+  "Korea, Republic of" = "South Korea",
+  "Taiwan, Province of China" ="Taiwan Republic of China (Taiwan)",
+  "Macedonia, the former Yugoslav Republic of" = "North Macedonia",
+  "Moldova, Republic of" = "Moldova",
+  "Bolivia, Plurinational State of" = "Bolivia",
+  "Palestinian Territory, Occupied" = "Palestine",
+  "Côte d'Ivoire" = "Ivory Coast",
+  "Venezuela, Bolivarian Republic of" = "Venezuela",
+  "Viet Nam" = "Vietnam",
+  "Russian Federation" = "Russia",
+  "Iran, Islamic Republic of" = "Iran",
+  "Lao People's Democratic Republic" = "Laos",
+  "Libyan Arab Jamahiriya" = "Libya",
+  "Congo, the Democratic Republic of the" = "Democratic Republic of the Congo",
+  "Tanzania, United Republic of" = "Tanzania",
+  "Congo" = "Republic of the Congo",
+  "Syrian Arab Republic" = "Syria",
+  "Korea, Democratic People's Republic of" = "North Korea"
+)
+
+geoCode$country <- revalue(geoCode$country, replaceCountries)
+
+setdiff(democracyIndex$country, geoCode$country)
+# no diffences, OK to merge
+
+# merge with democracyIndex
+democracyIndex <- merge(democracyIndex, geoCode, by="country", all.y = FALSE)
+
 
 
 # ---------------------------------------------------------
@@ -73,6 +123,22 @@ names(religion) <- c(
   "allReligions"  
 )
 
+setdiff(democracyIndex$country, religion$country)
+# a few to recode
+
+replaceCountries <- c(
+  "Bosnia-Herzegovina" = "Bosnia and Herzegovina",
+  "Burma (Myanmar)" = "Myanmar",
+  "Republic of Macedonia" = "North Macedonia",
+  "Palestinian territories" = "Palestine",
+  "Taiwan" = "Taiwan Republic of China (Taiwan)"
+)
+
+religion$country <- revalue(religion$country, replaceCountries)
+
+setdiff(democracyIndex$country, religion$country)
+# no differences, OK to merge
+
 
 
 # ---------------------------------------------------------
@@ -90,12 +156,13 @@ data_long <- gather(data_wide, key="religion", value="count",  startCol:endCol, 
 # ---------------------------------------------------------
 # save files
 
-write_json(democracyIndex,"../webpack/dist/data/democracy-index.json")
-write_json(religion,"../webpack/dist/data/religion.json")
+write_json(democracyIndex, "../webpack/dist/data/democracy-index.json")
+write_json(religion, "../webpack/dist/data/religion.json")
 
-write_json(data_wide,"../webpack/dist/data/data_wide.json")
-write_json(data_long,"../webpack/dist/data/data_long.json")
+write_json(data_wide, "../webpack/dist/data/data_wide.json")
+write_json(data_long, "../webpack/dist/data/data_long.json")
 
+write_json(geoCode, "../webpack/dist/data/data_countries.json")
 
 
 

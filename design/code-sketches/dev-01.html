@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Document</title>
+<style>
+.plot {
+  background-color: #eee;
+}
+</style>
+</head>
+<body>
+<div class="plot"></div>
+<script src="d3.min.js"></script>  
+<script>
+
+const countryPromise = d3.json("data_countries.json")
+
+Promise.all([countryPromise])
+	.then(function([countryData]){
+    
+    const plot = d3.select(".plot")
+      .append("svg")
+      .attr("width",800)
+      .attr("height",800);
+      
+      
+    d = countryData.slice(0,5);
+    
+    drawMap(plot, d);
+    
+  });
+  
+const drawMap = function(plot, data){
+
+  const w = plot.node().clientWidth;
+  const h = plot.node().clientHeight;
+  
+  const projection = d3.geoMercator();
+
+  console.log(data);
+
+  dataXY = data.map(d=>{
+    d.x = projection([d.lng,d.lat])[0];
+    d.y = projection([d.lng,d.lat])[1];
+    return d;
+  });
+  
+  const dots = plot.selectAll('.node')
+    .data(dataXY)
+    .enter()
+    .append('circle')
+    .attr('class','node')
+    .attr('r', 30)
+    .attr('cx', d => d.x)
+    .attr('cy', d => d.y)
+    .attr("data-country",d => d.country)
+    .attr("fill","red")
+    .attr("opacity",0.5)
+    
+    const simulation = d3.forceSimulation(dataXY)
+        .force("charge", d3.forceCollide().radius(6))
+        .on("tick", ticked);
+
+    function ticked() {
+      console.log("t");
+    }  
+    
+
+}
+
+</script>
+</body>
+</html>
