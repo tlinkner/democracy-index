@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Document</title>
+<style>
+* {font-family: sans-serif; font-size: 10px;}
+/*div {margin: 2px; border: 1px dashed red; padding: 2px;}*/
+h1 {font-size: 1em;}
+.thing {margin: 2px; padding: 2px;background:pink;}
+.wrapper {display: flex; flex-direction: row; flex-wrap: wrap}
+.chart {margin: 0.5em; background: yellow; width: 200px; padding: 0.5em;}
+.node {margin: 2px; padding: 2px; background: white;}
+</style>
+</head>
+<body>
+<div class="ctl"></div>
+<div class="wrapper"></div>
+<script src="d3.min.js"></script>
+<script>
+
+
+// data =========================================
+
+const voterPromise = d3.json("house-data.json");
+
+voterPromise.then(data=>{
+  // direct
+  // drawOuter(getState(data,"New Jersey"))
+
+  // random
+  //  function update(){
+  //    let idx = Math.floor(Math.random()*districtsByState.length);
+  //    drawOuter(nestDistrictsByState(data)[idx].values);
+  //  }
+
+  // update();
+  // setInterval(update,1000);
+});
+
+
+
+function getState(data, state) {
+  return nestDistrictsByState(data).filter(d=>d.key==state)[0].values;
+}
+
+
+function nestDistrictsByState(data) {
+
+  const usTotal = d3.sum(data, d=>d.voterEthnicityValue);
+  const districtTarget = usTotal / 435;
+
+  const districtsByState = d3.nest()
+      .key(d =>d.state)
+      .key(d =>d.district)
+      .entries(data)
+      .map(d => {
+        d.value = d3.sum(d.values, j => j.voterEthnicityValue)
+        d.ratio = d.value / districtTarget;
+        return d;
+      });
+      
+  return districtsByState;
+  
+}
+
+
+
+// dispatch =====================================
+
+// instatiate dispatch object
+const globalDispatch = d3.dispatch("change:state");
+
+// change:state 
+//globalDispatch.on('change:state', (state) => {
+//    voterPromise.then(data=>{
+//      drawOuter(getState(data,state))
+//    });
+//    console.log(d3.select(this));
+//});
+
+
+globalDispatch.on('change:state', function(state){
+    voterPromise.then(data=>{
+      drawPlotControl(data,state);
+      drawOuter(getState(data,state))
+    });
+});
+
+
+
+globalDispatch.call('change:state',null,"Michigan")
+
+
+// control ======================================
+
+function drawPlotControl(data,state=null){
+
+	const stateList = nestDistrictsByState(data).map(d => d.key);
+    
+	let menu = d3.select(".ctl")
+    .selectAll("select")
+    .data([1]);
+		
+	menu = menu.enter()
+    .append("select")
+    .attr("class","select-control")
+		.merge(menu);
+		
+	menu.selectAll("option")
+    .data(stateList)
+    .enter()
+    .append("option")
+    .attr("value", d => d)
+    .attr("selected", d=>{
+      if (d === state){
+        return "selected"
+      }
+    })
+    .html(d => d)
+		
+	menu.exit()
+		.remove();    
+    
+	menu.on('change', function(){
+		globalDispatch.call('change:state',null,this.value);
+	});
+
+}
+
+
+// outer ========================================
+
+function drawOuter(data) {
+
+  const dom = d3.select(".wrapper");
+
+  // bind, empty selection
+  const nodes = dom.selectAll(".chart") 
+    .data(data);
+
+  // enter: append
+  const nodesEnter = nodes.enter()
+    .append("div")
+    .attr("class","chart")
+    .style("opactity",1)
+    
+  // merge: attr
+  nodesEnter.merge(nodes)
+    .text(d=>`${d.values[0].state}, district ${d.values[0].district}`)
+    
+  nodesEnter.merge(nodes)
+    .each(function(d){
+      drawSibling(this,[d.values[0]]);
+      drawInner(this,d.values);
+    })
+
+  // exit: remove
+  nodes.exit()
+    .transition()
+    .duration(500)
+    .style("opacity",0)
+    .remove();
+    
+}
+
+
+
+// inner ========================================
+
+function drawInner(dom,data){
+
+  const plot = d3.select(dom)
+    .append("div")
+    .attr("class","thing")
+    
+  plot.append("h1")
+    .text("district demographics")
+    
+  const nodes = plot.selectAll(".node") 
+    .data(data, d=>d.voterEthnicity);
+
+  // enter: append
+  const nodesEnter = nodes.enter()
+    .append("div")
+    .attr("class","node")
+    
+  // merge: attr
+  nodesEnter.merge(nodes)
+    .text(d=>`${d.voterEthnicity}: ${d.voterEthnicityValue}`)
+  
+  // exit: remove
+  nodes.exit()
+    .remove();
+
+}
+
+
+
+// sibling ======================================
+
+function drawSibling(dom,data){
+
+  const plot = d3.select(dom)
+    .append("div")
+    .attr("class","thing")
+    
+  const nodes = plot.selectAll(".node") 
+    .data(data, d=>d.voterEthnicity);
+
+  // enter: append
+  const nodesEnter = nodes.enter()
+    .append("div")
+    .attr("class","node")
+    
+  // merge: attr
+  nodesEnter.merge(nodes)
+    .text(d=>`${d.id}`)
+    .transition()
+  
+  // exit: remove
+  nodes.exit()
+    .remove();
+
+}
+
+
+
+// utility functions ============================
+
+function degToRad(degrees) {
+  return degrees * (Math.PI/180);
+}
+
+function radToDeg(radians) {
+  return radians * (180/Math.PI);
+}
+
+function findPoint(center, angleRad, distance) {
+  return {
+    x: Math.cos(-angleRad) * distance + center.x,
+    y: Math.sin(-angleRad) * distance + center.y
+  }
+}
+
+function findAngleAB(a,b){
+  // a: point1 {x,y}
+  // b: point2 {x,y}
+  return Math.atan2(b.y - a.y, b.x - a.x);
+}
+
+
+ 
+</script>  
+</body>
+</html>
