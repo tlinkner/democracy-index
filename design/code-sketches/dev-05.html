@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Document</title>
+<style>
+* {box-sizing: border-box; font-family: sans-serif}
+hr {height: 1; border: 1px solid red;}
+.plot {margin: 2em; width: 400px; height: 400px; float: left; background-color: #eee;}
+.info {margin: 2em; padding: 0.5em; width: 200px; min-height: 400px; float: left; background: pink;}
+</style>
+</head>
+<body>
+<div class="plot"></div>
+<div class="info"></div>
+<script src="d3.min.js"></script>  
+<script>
+
+/* states
+ * ----------------------------------------------
+ * bar: value|percent      (call from bar chart control)
+ * showAuthoritarian: t|f  (call from demoIndex legend, array)
+ * showHybridRegime: t|f   (call from demoIndex legend, array)
+ * showFlawedDemo: t|f     (call from demoIndex legend, array)
+ * showFullDemo: t|f       (call from demoIndex legend, array)
+ * highlight: country      (call from map, need to dim others)
+ */
+
+const dom = d3.select(".plot");
+const w = dom.node().clientWidth;
+const h = dom.node().clientHeight;
+
+const plot = dom.append("svg")
+  .attr("width",w)
+  .attr("height",h)
+
+const legendData = [{key:"authoritarian"},{key:"hybrid"},{key:"flawed"},{key:"full"}]
+  .map(d=>{
+    d.state ^= true;
+    return d;
+  })
+  
+const barModeObj = [{state:1}];
+    
+const dispatch = d3.dispatch("change:category","change:bar")
+
+dispatch.on('change:category', function(category){
+  legendData.forEach(d=>{
+    if (d.key === category) {
+      d.state ^= true;
+    }
+  })
+  console.group("change:category")
+  console.log(legendData)
+  console.groupEnd()
+  renderLegend(plot,legendData);  
+  reportState();
+
+})
+
+dispatch.on('change:bar', function(obj){
+  if(obj){
+    obj.state ^= true;
+  }
+  console.group("change:bar")
+  console.log(barModeObj)
+  console.groupEnd()
+  renderBarToggle(plot,barModeObj);  
+  reportState();
+})
+
+dispatch.call('change:category')
+dispatch.call('change:bar')
+
+
+function renderLegend(dom,data){
+  // update: bind, empty selection
+  const legend = dom.append("g")
+    .attr("class","legend")
+    .selectAll(".option")
+    .data(data);
+
+  // enter: append, incoming
+  const legendEnter = legend.enter()
+    .append("rect")
+    .attr("class","option");
+
+  // update: attr
+  legend.merge(legendEnter)
+    .attr("width",30)
+    .attr("height",30)
+    .attr("x",(d,i)=>i*40)
+    .attr("y",0)
+    .attr("data-option",d=>d.key)
+    .attr("fill",d=>(d.state===1) ? "red": "black")
+    .on("click", d=>dispatch.call("change:category",null,d.key));
+}
+
+function renderBarToggle(dom, obj){
+  // update: bind, empty selection
+  const toggle = dom.append("g")
+    .attr("class","barmode")
+    .attr("transform","translate(0,40)")
+    .selectAll(".toggle")
+    .data(obj);
+    
+  // enter: append, incoming
+  const toggleEnter = toggle.enter()
+    .append("rect")
+    .attr("class","toggle");
+    
+  // update: attr
+  toggle.merge(toggleEnter)
+    .attr("width",30)
+    .attr("height",30)
+    .attr("x",(d,i)=>i*40)
+    .attr("y",0)
+    .attr("fill",d=>(d.state===1) ? "red": "black")
+    .on("click", d=>dispatch.call("change:bar",null,d));
+}
+
+function reportState() {
+  let msg = "";
+
+  legendData.forEach(d=>{
+    msg += `${d.key}:${d.state}<br>`;
+  })
+  msg += "<hr>";
+  
+  msg += ` bar mode: ${barModeObj[0].state}`
+
+  const msgOutput = d3.select(".info")
+    .html(msg);
+}
+
+
+
+
+
+</script>  
+</body>
+</html>
