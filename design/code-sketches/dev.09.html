@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Document</title>
+<style>
+svg {
+  background: #eee;
+}
+
+</style>
+</head>
+<body>
+<div class="plot"></div>  
+<script src="d3.min.js"></script>  
+<script>
+
+// bar h = 20px + 5px margin
+// 25 * 167 = 4175
+
+const randomArray = Array(167)
+  .fill()
+  .map(() => Math.round(Math.random() * 200))
+
+console.log(randomArray);
+
+
+// changing svg size
+
+const w = 600;
+const h = 400;
+
+const plot = d3.select(".plot");
+
+const svg = plot.append("svg")
+  .attr("width",w)
+  .attr("height",h)
+  .on("click", function(){
+    resizeSVG(this);
+  });
+  
+const nodes = svg.selectAll(".node")
+  .data(randomArray)
+
+
+const nodesEnter = nodes.enter()
+  .append("rect")
+  .attr("node")
+  
+nodes.merge(nodesEnter)
+  .attr("height",20)
+  .attr("x",(d,i)=>i*25)
+  .attr()
+  
+
+  
+  
+
+function resizeSVG(dom){
+  const domSel = d3.select(dom);
+  const dHeight = domSel.attr("height");
+  
+  console.log(typeof(dHeight))
+  console.log(+dHeight === 400)
+  
+  if (+dHeight === 400) {
+    domSel.attr("height",600)
+  } else {
+    domSel.attr("height",400)
+  }
+
+}
+
+
+</script>      
+</body>
+</html>

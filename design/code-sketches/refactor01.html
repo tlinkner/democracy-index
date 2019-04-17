@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Document</title>
+</head>
+<body>
+<script src="d3.min.js"></script>  
+<script>
+
+// data
+
+const countryDataPromise = d3.json("democracy_religion_long.json");
+
+countryDataPromise.then(data=>{
+	// raw
+  // console.log(data)
+	
+	// getCountryData
+	const countryData = getCountryData(data);
+	// console.log(countryData)
+
+	// getReligionData
+	const religionData = getReligionData(data);
+	// console.log(religionData)
+
+	// getMapData
+	const mapData = getMapData(data);
+	console.log(mapData)
+
+});
+
+//[{
+//  country:"",
+//	code: ",
+//  lgn:"",
+//  lat:"",
+//  indexScore:0,
+//  indexCategory:"",
+//  religion:"",
+//	allReligions:0,
+//  religionPct:0,
+//  religionPop:0
+//}]
+//
+// nest by country
+// get totals
+// calculate pct
+
+function getCountryData(data){
+
+	const countryData = d3.nest()
+		.key(d=>d.code)
+		.entries(data)
+		.map(d=>{
+			d.country = d.values[0].country;
+			d.lat = d.values[0].lat;
+			d.lng = d.values[0].lng;
+			d.indexScore = d.values[0].indexScore;
+			d.indexCategory = d.values[0].indexCategory;
+			d.allReligions = d.values[0].allReligions;
+			return d;
+		});
+		
+		const countryDataSorted = countryData.sort((a,b)=>b.allReligions-a.allReligions)
+		
+		return countryData;
+}
+
+function getReligionData(data){
+
+	const religionData = d3.nest()
+		.key(d=>d.religion)
+		.entries(data)
+		.map(d=>{
+			const thisReligion = data.filter(j=>j.religion == d.key)
+			const thisReligionSum = d3.sum(thisReligion,d=>d.religionPop);
+			d.religionSum = thisReligionSum;
+			return d;
+		});
+		
+		const religionDataSorted = religionData.sort((a,b)=>b.religionSum-a.religionSum)
+		
+		return religionDataSorted;
+}
+
+function getMapData(data){
+
+}
+
+// state
+
+const countrySelection = "United States";
+const axisToggle = 1;
+const metricToggle = 1;
+const filterStates = {
+        "authoritarian":1,
+        "hybridregime":1,
+        "flaweddemocracy":1,
+        "fulldemocracy":1
+      };
+
+
+// dispatch
+
+const globalDispatch = d3.dispatch("change:country", "change:axis", "change:metric","change:filter");
+
+globalDispatch.on('change:country', () =>{})
+
+globalDispatch.on('change:axis', () =>{})
+
+globalDispatch.on('change:metric', () =>{})
+
+globalDispatch.on('change:filter', () =>{})
+
+
+// ui
+
+function renderCategoryOptions(){
+  // html checkboxes in fieldset
+}
+
+function renderValueToggle(){
+  // html checkbox
+}
+
+function renderAxisToggle(){
+  // html checkbox
+}
+
+function renderCountryMenu(){
+  // html select meu
+}
+
+
+// display
+
+function renderStackedBarChart(data){
+  const nrows = 0;
+  const rowHeight = 0;
+  const rowMargin = 0; // total = rowHeight + rowMargin
+  // scale svg to data
+}
+
+function renderCartogram(data){}
+
+
+// modules
+
+function StackedBar(data){
+  //[{
+  //  key:"",
+  //  label:"",
+  //  value:0,
+  //  color:""
+  //}]
+}
+
+function Cartogram(data){
+  //[{
+  //  key:"",
+  //  lon:0,
+  //  lat:0,
+  //  value:0,
+  //  color:""
+  //}]
+}
+
+
+</script>
+</body>
+</html>

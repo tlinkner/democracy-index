@@ -145,27 +145,64 @@ setdiff(democracyIndex$country, religion$country)
 
 # ---------------------------------------------------------
 # merge
+# most recent update for D3 final
 
 data_wide <- merge(democracyIndex, religion, by="country")
+
+data_wide <- data_wide[,c(
+  "country",
+  "demScore",
+  "demCategory",
+  "christian",
+  "muslim",
+  "unaffiliated",
+  "buddhist",
+  "folkReligion",
+  "otherReligion",
+  "jewish",
+  "allReligions"
+)]
+
+names(data_wide) <- c(
+  "country",
+  "indexScore",
+  "indexCategory",
+  "christian",
+  "muslim",
+  "unaffiliated",
+  "buddhist",
+  "folkReligion",
+  "otherReligion",
+  "jewish",
+  "allReligions"
+)
+
+# if diff is 0, OK to merge
+setdiff(data_wide$country, geoCode$country)
+
+data_wide <- merge(data_wide, geoCode, by="country", all.y = FALSE)
+
+data_wide$code <- tolower(data_wide$code)
+
+# impute empty values as 0
+data_wide <- na.replace(data_wide, 0)
 
 startCol <- which(colnames(data_wide) == "christian")
 endCol <- which(colnames(data_wide) == "jewish")
 
 data_long <- gather(data_wide, key="religion", value="count",  startCol:endCol, factor_key=TRUE)
 
+# rename specific column
+names(data_long)[names(data_long) == 'count'] <- 'religionPop'
+
+data_long$religionPct = data_long$religionPop / data_long$allReligions
 
 
 
 # ---------------------------------------------------------
 # save files
 
-# write_json(democracyIndex, "../webpack/dist/data/democracy-index.json")
-# write_json(religion, "../webpack/dist/data/religion.json")
-# 
-# write_json(data_wide, "../webpack/dist/data/data_wide.json")
-# write_json(data_long, "../webpack/dist/data/data_long.json")
-# 
-# write_json(geoCode, "../webpack/dist/data/data_countries.json")
+write_json(data_long, "democracy_religion_long.json")
 
 
 

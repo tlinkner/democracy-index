@@ -42,11 +42,12 @@ const legendData = [{key:"authoritarian"},{key:"hybrid"},{key:"flawed"},{key:"fu
     return d;
   })
   
+// broadcast value instead of object
 const barModeObj = [{state:1}];
 
-
-
 const dispatch = d3.dispatch("change:category","change:bar")
+
+
 
 dispatch.on('change:category', function(category){
   legendData.forEach(d=>{
@@ -69,7 +70,7 @@ dispatch.on('change:bar', function(obj){
   console.group("change:bar")
   console.log(barModeObj)
   console.groupEnd()
-  renderBarToggle(plot,barModeObj);  
+  renderBarToggle(plot,barModeObj);   
   reportState();
 })
 
@@ -114,7 +115,7 @@ function renderBarToggle(dom, obj){
   // enter: append, incoming
   const toggleEnter = toggle.enter()
     .append("rect")
-    .attr("class","toggle");
+    .attr("class","toggle")
     
   const circEnter = toggle.enter().append("circle")
     

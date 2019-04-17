@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Document</title>
+<style>
+
+.selectMode .country,
+.selectMode .bar {
+  opacity: 0.5;
+}
+
+.selectMode .bar.selected {
+  transform: translate(0,-5px);
+  opacity: 1.0;
+}
+
+.selectMode .country.selected {
+  opacity: 1.0;
+}
+
+
+</style>
+</head>
+<body>
+<div class="plot">
+  <svg width="600" height="400">
+  <rect class="bar" x="47.352" y="44.858" width="0.021" height="20.857" fill="#be202e"/>
+  <rect class="bar" x="47.372" y="44.858" width="0.042" height="20.857" fill="#be202e"/>
+  <rect class="bar" x="47.414" y="44.858" width="0.083" height="20.857" fill="#be202e"/>
+  <rect class="bar" x="47.497" y="44.858" width="0.146" height="20.857" fill="#be202e"/>
+  <rect class="bar" x="47.643" y="44.858" width="0.167" height="20.857" fill="#be202e"/>
+  <rect class="bar" x="47.81" y="44.858" width="0.208" height="20.857" fill="#be202e"/>
+  <rect class="bar" x="47.998" y="44.858" width="0.25" height="20.857" fill="#be202e"/>
+  <rect class="bar" x="48.248" y="44.858" width="0.271" height="20.857" fill="#be202e"/>
+  <rect class="bar" x="48.498" y="44.858" width="0.292" height="20.857" fill="#be202e"/>
+  <rect class="bar" x="48.811" y="44.858" width="0.313" height="20.857" fill="#be202e"/>
+  <rect class="bar" x="49.102" y="44.858" width="0.313" height="20.857" fill="#be202e"/>
+  <rect class="bar" x="49.436" y="44.858" width="0.334" height="20.857" fill="#be202e"/>
+  <rect class="bar" x="49.77" y="44.858" width="0.667" height="20.857" fill="#be202e"/>
+  <rect class="bar" x="50.416" y="44.858" width="0.875" height="20.857" fill="#be202e"/>
+  <rect class="bar" x="51.291" y="44.858" width="1.48" height="20.857" fill="#be202e"/>
+  <rect class="bar" x="52.75" y="44.858" width="1.626" height="20.857" fill="#be202e"/>
+  <rect class="bar" x="54.397" y="44.858" width="1.834" height="20.857" fill="#be202e"/>
+  <rect class="bar" x="56.231" y="44.858" width="1.855" height="20.857" fill="#be202e"/>
+  <rect class="bar" x="58.086" y="44.858" width="1.98" height="20.857" fill="#be202e"/>
+  <rect class="bar" x="60.067" y="44.858" width="2.064" height="20.857" fill="#be202e"/>
+  <rect class="bar" x="62.13" y="44.858" width="2.501" height="20.857" fill="#be202e"/>
+  <rect class="bar" x="64.652" y="44.858" width="2.918" height="20.857" fill="#be202e"/>
+  <rect class="bar" x="67.571" y="44.858" width="3.564" height="20.857" fill="#be202e"/>
+  <rect class="bar" x="71.135" y="44.858" width="4.648" height="20.857" fill="#ce9a2b"/>
+  <rect class="bar" x="75.783" y="44.858" width="4.669" height="20.857" fill="#ce9a2b"/>
+  <rect class="bar" x="80.452" y="44.858" width="5.003" height="20.857" fill="#ce9a2b"/>
+  <rect class="bar" x="85.455" y="44.858" width="6.587" height="20.857" fill="#ce9a2b"/>
+  <rect class="bar" x="92.042" y="44.858" width="6.837" height="20.857" fill="#ce9a2b"/>
+  <rect class="bar" x="98.879" y="44.858" width="7.337" height="20.857" fill="#ce9a2b"/>
+  <rect class="bar" x="106.216" y="44.858" width="9.463" height="20.857" fill="#ce9a2b"/>
+  <rect class="bar" x="115.679" y="44.858" width="14.737" height="20.857" fill="#ce9a2b"/>
+  <rect class="bar" x="130.416" y="44.858" width="15.508" height="20.857" fill="#ce9a2b"/>
+  <rect class="bar" x="145.924" y="44.858" width="18.385" height="20.857" fill="#ce9a2b"/>
+  <rect class="bar" x="164.309" y="44.858" width="20.407" height="20.857" fill="#ce9a2b"/>
+  <rect class="bar" x="184.716" y="44.858" width="41.793" height="20.857" fill="#ce9a2b"/>
+  <rect class="bar" x="433.805" y="44.858" width="0.167" height="20.857" fill="#039447"/>
+  <rect class="bar" x="433.972" y="44.858" width="0.188" height="20.857" fill="#039447"/>
+  <rect class="bar" x="434.159" y="44.858" width="0.208" height="20.857" fill="#039447"/>
+  <rect class="bar" x="434.389" y="44.858" width="0.229" height="20.857" fill="#039447"/>
+  <rect class="bar" x="434.597" y="44.858" width="1.042" height="20.857" fill="#039447"/>
+  <rect class="bar" x="435.66" y="44.858" width="1.334" height="20.857" fill="#039447"/>
+  <rect class="bar" x="436.994" y="44.858" width="2.209" height="20.857" fill="#039447"/>
+  <rect class="bar" x="439.183" y="44.858" width="2.209" height="20.857" fill="#039447"/>
+  <rect class="bar" x="441.392" y="44.858" width="2.272" height="20.857" fill="#039447"/>
+  <rect class="bar" x="443.664" y="44.858" width="2.293" height="20.857" fill="#039447"/>
+  <rect class="bar" x="445.978" y="44.858" width="2.48" height="20.857" fill="#039447"/>
+  <rect class="bar" x="448.438" y="44.858" width="2.981" height="20.857" fill="#039447"/>
+  <rect class="bar" x="451.418" y="44.858" width="3.377" height="20.857" fill="#039447"/>
+  <rect class="bar" x="454.816" y="44.858" width="3.606" height="20.857" fill="#039447"/>
+  <rect class="bar" x="458.422" y="44.858" width="4.502" height="20.857" fill="#039447"/>
+  <rect class="bar" x="462.924" y="44.858" width="8.025" height="20.857" fill="#039447"/>
+  <rect class="bar" x="470.949" y="44.858" width="12.569" height="20.857" fill="#039447"/>
+  <rect class="bar" x="483.498" y="44.858" width="19.406" height="20.857" fill="#039447"/>
+  <rect class="bar" x="502.904" y="44.858" width="21.365" height="20.857" fill="#039447"/>
+  <rect class="bar" x="524.269" y="44.858" width="30.266" height="20.857" fill="#039447"/>
+  <rect class="bar" x="226.508" y="44.858" width="0.021" height="20.857" fill="#76ac42"/>
+  <rect class="bar" x="226.508" y="44.858" width="0.042" height="20.857" fill="#76ac42"/>
+  <rect class="bar" x="226.55" y="44.858" width="0.083" height="20.857" fill="#76ac42"/>
+  <rect class="bar" x="226.633" y="44.858" width="0.146" height="20.857" fill="#76ac42"/>
+  <rect class="bar" x="226.779" y="44.858" width="0.229" height="20.857" fill="#76ac42"/>
+  <rect class="bar" x="227.009" y="44.858" width="0.25" height="20.857" fill="#76ac42"/>
+  <rect class="bar" x="227.259" y="44.858" width="0.271" height="20.857" fill="#76ac42"/>
+  <rect class="bar" x="227.509" y="44.858" width="0.292" height="20.857" fill="#76ac42"/>
+  <rect class="bar" x="227.801" y="44.858" width="0.438" height="20.857" fill="#76ac42"/>
+  <rect class="bar" x="228.238" y="44.858" width="0.479" height="20.857" fill="#76ac42"/>
+  <rect class="bar" x="228.718" y="44.858" width="0.5" height="20.857" fill="#76ac42"/>
+  <rect class="bar" x="229.197" y="44.858" width="0.542" height="20.857" fill="#76ac42"/>
+  <rect class="bar" x="229.739" y="44.858" width="0.604" height="20.857" fill="#76ac42"/>
+  <rect class="bar" x="230.344" y="44.858" width="0.667" height="20.857" fill="#76ac42"/>
+  <rect class="bar" x="231.011" y="44.858" width="0.771" height="20.857" fill="#76ac42"/>
+  <rect class="bar" x="231.803" y="44.858" width="0.813" height="20.857" fill="#76ac42"/>
+  <rect class="bar" x="232.616" y="44.858" width="0.855" height="20.857" fill="#76ac42"/>
+  <rect class="bar" x="233.47" y="44.858" width="1.084" height="20.857" fill="#76ac42"/>
+  <rect class="bar" x="234.554" y="44.858" width="1.126" height="20.857" fill="#76ac42"/>
+  <rect class="bar" x="235.68" y="44.858" width="1.126" height="20.857" fill="#76ac42"/>
+  <rect class="bar" x="236.805" y="44.858" width="1.188" height="20.857" fill="#76ac42"/>
+  <rect class="bar" x="238.014" y="44.858" width="1.313" height="20.857" fill="#76ac42"/>
+  <rect class="bar" x="239.307" y="44.858" width="1.438" height="20.857" fill="#76ac42"/>
+  <rect class="bar" x="240.745" y="44.858" width="1.605" height="20.857" fill="#76ac42"/>
+  <rect class="bar" x="242.35" y="44.858" width="1.751" height="20.857" fill="#76ac42"/>
+  <rect class="bar" x="244.101" y="44.858" width="2.209" height="20.857" fill="#76ac42"/>
+  <rect class="bar" x="246.29" y="44.858" width="2.501" height="20.857" fill="#76ac42"/>
+  <rect class="bar" x="248.791" y="44.858" width="3.293" height="20.857" fill="#76ac42"/>
+  <rect class="bar" x="252.084" y="44.858" width="3.356" height="20.857" fill="#76ac42"/>
+  <rect class="bar" x="255.419" y="44.858" width="3.648" height="20.857" fill="#76ac42"/>
+  <rect class="bar" x="259.067" y="44.858" width="3.689" height="20.857" fill="#76ac42"/>
+  <rect class="bar" x="262.757" y="44.858" width="4.002" height="20.857" fill="#76ac42"/>
+  <rect class="bar" x="266.759" y="44.858" width="4.336" height="20.857" fill="#76ac42"/>
+  <rect class="bar" x="271.094" y="44.858" width="4.669" height="20.857" fill="#76ac42"/>
+  <rect class="bar" x="275.763" y="44.858" width="5.253" height="20.857" fill="#76ac42"/>
+  <rect class="bar" x="281.016" y="44.858" width="5.357" height="20.857" fill="#76ac42"/>
+  <rect class="bar" x="286.373" y="44.858" width="7.296" height="20.857" fill="#76ac42"/>
+  <rect class="bar" x="293.669" y="44.858" width="7.587" height="20.857" fill="#76ac42"/>
+  <rect class="bar" x="301.256" y="44.858" width="8.192" height="20.857" fill="#76ac42"/>
+  <rect class="bar" x="309.448" y="44.858" width="9.776" height="20.857" fill="#76ac42"/>
+  <rect class="bar" x="319.224" y="44.858" width="11.444" height="20.857" fill="#76ac42"/>
+  <rect class="bar" x="330.667" y="44.858" width="12.673" height="20.857" fill="#76ac42"/>
+  <rect class="bar" x="343.341" y="44.858" width="14.862" height="20.857" fill="#76ac42"/>
+  <rect class="bar" x="358.203" y="44.858" width="16.675" height="20.857" fill="#76ac42"/>
+  <rect class="bar" x="374.878" y="44.858" width="18.426" height="20.857" fill="#76ac42"/>
+  <rect class="bar" x="393.304" y="44.858" width="19.323" height="20.857" fill="#76ac42"/>
+  <rect class="bar" x="412.627" y="44.858" width="21.178" height="20.857" fill="#76ac42"/>
+  <circle class="country" cx="183.61" cy="169.346" r="1.164" fill="#be202e"/>
+  <circle class="country" cx="240.615" cy="222.421" r="2.371" fill="#ce9a2b"/>
+  <circle class="country" cx="137.359" cy="168.705" r="7.959" fill="#ce9a2b"/>
+  <circle class="country" cx="251.068" cy="282.864" r="5.743" fill="#039447"/>
+  <circle class="country" cx="228.58" cy="318.938" r="1.844" fill="#ce9a2b"/>
+  <circle class="country" cx="237.104" cy="278.424" r="3.093" fill="#039447"/>
+  <circle class="country" cx="224.494" cy="219.664" r="3.14" fill="#039447"/>
+  <circle class="country" cx="248.995" cy="118.011" r="5.552" fill="#ce9a2b"/>
+  <circle class="country" cx="147.429" cy="159.04" r="10.175" fill="#039447"/>
+  <circle class="country" cx="197.841" cy="271.607" r="5.136" fill="#039447"/>
+  <circle class="country" cx="182.166" cy="259.855" r="8.317" fill="#039447"/>
+  <circle class="country" cx="191.445" cy="155.635" r="9.056" fill="#ce9a2b"/>
+  <circle class="country" cx="201.183" cy="281.404" r="8.51" fill="#039447"/>
+  <circle class="country" cx="159.043" cy="282.788" r="2.138" fill="#039447"/>
+  <circle class="country" cx="206.083" cy="188.361" r="5.527" fill="#039447"/>
+  <circle class="country" cx="240.866" cy="158.566" r="4.084" fill="#039447"/>
+  <circle class="country" cx="193.176" cy="178.405" r="9.778" fill="#be202e"/>
+  <circle class="country" cx="123.02" cy="174.266" r="10.563" fill="#039447"/>
+  <circle class="country" cx="194.594" cy="228.528" r="7.084" fill="#039447"/>
+  <circle class="country" cx="227.088" cy="279.441" r="5.503" fill="#ce9a2b"/>
+  <circle class="country" cx="197.046" cy="298.671" r="3.015" fill="#039447"/>
+  <circle class="country" cx="263.831" cy="290.715" r="1.099" fill="#039447"/>
+  <circle class="country" cx="293.021" cy="124.452" r="6.886" fill="#039447"/>
+  <circle class="country" cx="277.475" cy="241.132" r="0.593" fill="#ce9a2b"/>
+  <circle class="country" cx="226.755" cy="217.22" r="3.127" fill="#039447"/>
+  <circle class="country" cx="134.628" cy="259.006" r="1.833" fill="#039447"/>
+  <circle class="country" cx="373.339" cy="162.245" r="1.953" fill="#039447"/>
+  <circle class="country" cx="224.763" cy="282.315" r="1.673" fill="#039447"/>
+  <circle class="country" cx="104.6" cy="228.07" r="6.024" fill="#039447"/>
+  <circle class="country" cx="180.102" cy="307.198" r="7.747" fill="#039447"/>
+  <circle class="country" cx="110.42" cy="214.933" r="2.03" fill="#039447"/>
+  <circle class="country" cx="177.498" cy="138.946" r="7.631" fill="#039447"/>
+  <circle class="country" cx="255.197" cy="189.962" r="3.655" fill="#039447"/>
+  <circle class="country" cx="144.679" cy="203.996" r="7.218" fill="#039447"/>
+  <circle class="country" cx="106.657" cy="264.898" r="3.955" fill="#039447"/>
+  <circle class="country" cx="377.032" cy="224.786" r="4.9" fill="#039447"/>
+  <circle class="country" cx="323.313" cy="179.315" r="1.103" fill="#039447"/>
+  <circle class="country" cx="365.048" cy="190.486" r="7.257" fill="#be202e"/>
+  <circle class="country" cx="251.538" cy="219.101" r="6.7" fill="#039447"/>
+  <circle class="country" cx="373.104" cy="201.081" r="3.853" fill="#039447"/>
+  <circle class="country" cx="160.959" cy="207.313" r="6.743" fill="#039447"/>
+  <circle class="country" cx="133.957" cy="205.011" r="4.975" fill="#039447"/>
+  <circle class="country" cx="180.53" cy="260.638" r="1.473" fill="#ce9a2b"/>
+  <circle class="country" cx="143.641" cy="244.501" r="7.005" fill="#ce9a2b"/>
+  <circle class="country" cx="399.146" cy="212.561" r="4.248" fill="#ce9a2b"/>
+  <circle class="country" cx="290.191" cy="132.546" r="4.994" fill="#ce9a2b"/>
+  <circle class="country" cx="337.058" cy="205.096" r="4.025" fill="#ce9a2b"/>
+  <circle class="country" cx="169.818" cy="199.414" r="1.319" fill="#ce9a2b"/>
+  <circle class="country" cx="243.164" cy="206.387" r="7.525" fill="#ce9a2b"/>
+  <circle class="country" cx="153.255" cy="278.185" r="0.118" fill="#be202e"/>
+  <circle class="country" cx="394.808" cy="262.568" r="3.794" fill="#ce9a2b"/>
+  <circle class="country" cx="450.828" cy="158.583" r="7.822" fill="#ce9a2b"/>
+  <circle class="country" cx="324.99" cy="137.201" r="1.746" fill="#ce9a2b"/>
+  <circle class="country" cx="221.218" cy="316.791" r="4.743" fill="#039447"/>
+  <circle class="country" cx="345.193" cy="232.199" r="3.162" fill="#ce9a2b"/>
+  <circle class="country" cx="430.897" cy="321.083" r="7.598" fill="#ce9a2b"/>
+  <circle class="country" cx="379.28" cy="232.545" r="0.867" fill="#ce9a2b"/>
+  <circle class="country" cx="436.712" cy="146.28" r="6.569" fill="#ce9a2b"/>
+  <circle class="country" cx="339.798" cy="172.233" r="0.414" fill="#ce9a2b"/>
+  <circle class="country" cx="240.849" cy="284.797" r="2.301" fill="#ce9a2b"/>
+  <circle class="country" cx="266.801" cy="247.796" r="4.709" fill="#be202e"/>
+  <circle class="country" cx="441.52" cy="226.565" r="3.93" fill="#039447"/>
+  <circle class="country" cx="388.722" cy="195.116" r="5.869" fill="#039447"/>
+  <circle class="country" cx="177.857" cy="248.217" r="6.78" fill="#ce9a2b"/>
+  <circle class="country" cx="439.297" cy="256.334" r="1.942" fill="#ce9a2b"/>
+  <circle class="country" cx="170.401" cy="279.073" r="4.574" fill="#be202e"/>
+  <circle class="country" cx="199.199" cy="236.382" r="0.276" fill="#ce9a2b"/>
+  <circle class="country" cx="408.765" cy="201.539" r="8.192" fill="#ce9a2b"/>
+  <circle class="country" cx="420.073" cy="193.676" r="4.804" fill="#ce9a2b"/>
+  <circle class="country" cx="460.59" cy="255.077" r="5.091" fill="#ce9a2b"/>
+  <circle class="country" cx="459.583" cy="304.395" r="7.966" fill="#ce9a2b"/>
+  <circle class="country" cx="151.41" cy="271.721" r="4.953" fill="#ce9a2b"/>
+  <circle class="country" cx="240.299" cy="260.034" r="8.713" fill="#ce9a2b"/>
+  <circle class="country" cx="381.214" cy="202.478" r="6.025" fill="#ce9a2b"/>
+  <circle class="country" cx="451.039" cy="215.364" r="5.839" fill="#ce9a2b"/>
+  <circle class="country" cx="390.68" cy="227.673" r="2.987" fill="#039447"/>
+  <circle class="country" cx="395.126" cy="240.537" r="1.048" fill="#ce9a2b"/>
+  <circle class="country" cx="174.751" cy="266.131" r="1.115" fill="#ce9a2b"/>
+  <circle class="country" cx="230.663" cy="242.216" r="7.214" fill="#ce9a2b"/>
+  <circle class="country" cx="453.846" cy="222.533" r="5.869" fill="#be202e"/>
+  <circle class="country" cx="401.354" cy="194.093" r="2.742" fill="#be202e"/>
+  <circle class="country" cx="445.799" cy="253.171" r="0.407" fill="#ce9a2b"/>
+  <circle class="country" cx="438.65" cy="211.886" r="0.082" fill="#039447"/>
+  <circle class="country" cx="210.663" cy="262.292" r="2.402" fill="#be202e"/>
+  <circle class="country" cx="231.314" cy="196.733" r="2.402" fill="#be202e"/>
+  <circle class="country" cx="155.326" cy="224.356" r="5.478" fill="#ce9a2b"/>
+  <circle class="country" cx="110.89" cy="253.465" r="2.695" fill="#039447"/>
+  <circle class="country" cx="456.079" cy="129.143" r="3.669" fill="#be202e"/>
+  <circle class="country" cx="452.752" cy="249.527" r="2.182" fill="#039447"/>
+  <circle class="country" cx="420.521" cy="264.636" r="3.632" fill="#be202e"/>
+  <circle class="country" cx="424.537" cy="218.32" r="0.913" fill="#be202e"/>
+  <circle class="country" cx="453.851" cy="237.569" r="0.767" fill="#039447"/>
+  <circle class="country" cx="417.566" cy="302.572" r="3.732" fill="#be202e"/>
+  <circle class="country" cx="453.412" cy="200.511" r="3.855" fill="#be202e"/>
+  <circle class="country" cx="446.1" cy="271.506" r="4.246" fill="#be202e"/>
+  <circle class="country" cx="310.606" cy="215.236" r="2.905" fill="#be202e"/>
+  <circle class="country" cx="285.777" cy="195.835" r="1.285" fill="#039447"/>
+  <circle class="country" cx="292.002" cy="197.704" r="0.768" fill="#be202e"/>
+  <circle class="country" cx="310.965" cy="191.452" r="0.082" fill="#ce9a2b"/>
+  <circle class="country" cx="245.185" cy="320.472" r="0.107" fill="#be202e"/>
+  <circle class="country" cx="160.536" cy="154.674" r="5.211" fill="#be202e"/>
+  <circle class="country" cx="151.487" cy="171.513" r="2.263" fill="#be202e"/>
+  <circle class="country" cx="207.95" cy="132.232" r="4.41" fill="#be202e"/>
+  <circle class="country" cx="304.983" cy="210.454" r="2.38" fill="#be202e"/>
+  <circle class="country" cx="168.889" cy="147.18" r="2.675" fill="#be202e"/>
+  <circle class="country" cx="203.879" cy="155.125" r="1.432" fill="#be202e"/>
+  <circle class="country" cx="134.856" cy="142.339" r="3.256" fill="#be202e"/>
+</svg>
+
+</div>
+<script src="d3.min.js"></script>  
+<script>
+
+
+
+
+
+
+d3.selectAll(".bar")
+  .on("mouseenter",function(e,i){
+    d3.select(this).classed("selected",true)
+    d3.select("body").classed("selectMode",true)
+    let sid = i;
+    console.log(i)
+  })
+  .on("mouseleave",function(e,i){
+    d3.select(this).classed("selected",false)
+    d3.select("body").classed("selectMode",false)
+  })
+
+
+d3.selectAll(".country")
+  .on("mouseenter",function(e,i){
+    d3.select(this).classed("selected",true)
+    d3.select("body").classed("selectMode",true)
+    let sid = i;
+    console.log(i)
+  })
+  .on("mouseleave",function(e,i){
+    d3.select(this).classed("selected",false)
+    d3.select("body").classed("selectMode",false)
+  })
+
+
+
+  
+//d3.select(someSelection.nodes()[i])
+  
+
+</script>    
+</body>
+</html>
