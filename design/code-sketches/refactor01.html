@@ -3,8 +3,73 @@
 <head>
 <meta charset="UTF-8">
 <title>Document</title>
+<style>
+
+* {box-sizing: border-box;}
+
+body {font-family: sans-serif}
+
+.category-options {
+	display: flex;
+	flex-direction: row;
+}
+
+.option {
+	font-family: "IBM Plex Sans Condensed", sans-serif; /* todo: font imports */
+	font-size: 0.875em;
+	text-transform: uppercase;
+}
+
+.option input {
+	position: relative;
+	cursor: pointer;
+}
+
+.option input::after {
+	content: "";
+	position: absolute;
+	top: -0.25em;
+	left: -0.25em;
+	display: block;
+	width: 1.5em;
+	height: 1.5em;
+	background: #bbbbbb;
+	pointer-events: none;
+}
+
+input:checked.option-authoritarian::after {background: #be202e;}
+input:checked.option-hybridregime::after {background: #ce9a2b;}
+input:checked.option-flaweddemocracy::after {background: #76ac42;}
+input:checked.option-fulldemocracy::after {background: #039447;}
+
+.option + .option {
+	margin-left: 1em;
+}
+
+.option input + label {
+	margin-left: 0.25em;
+}
+
+#cartogram, 
+#stackedbar
+{border: 1px solid blue;background: #eee;}
+
+#legend, 
+#axis
+{border: 1px solid red;}
+
+</style>
 </head>
 <body>
+<h1>Title</h1>
+<p>Intro ...</p>
+<div id="cartogram"></div>
+<div id="legend"></div>
+<div id="axis"></div>
+<footer class="footer">
+	<p>Credits</p>
+</footer>
+<div class="stackedbar"></div>
 <script src="d3.min.js"></script>  
 <script>
 
@@ -13,6 +78,20 @@
 const countryDataPromise = d3.json("democracy_religion_long.json");
 
 countryDataPromise.then(data=>{
+
+	/*{
+	 *  country:"",
+	 *	code: ",
+	 *  lgn:"",
+	 *  lat:"",
+	 *  indexScore:0,
+	 *  indexCategory:"",
+	 *  religion:"",
+	 *	allReligions:0,
+	 *  religionPct:0,
+	 *  religionPop:0
+	 }*/
+
 	// raw
   // console.log(data)
 	
@@ -24,28 +103,12 @@ countryDataPromise.then(data=>{
 	const religionData = getReligionData(data);
 	// console.log(religionData)
 
-	// getMapData
-	const mapData = getMapData(data);
-	console.log(mapData)
+	// getIndexData
+	const indexData = getIndexData(data);
+//	console.log(indexData)
+
 
 });
-
-//[{
-//  country:"",
-//	code: ",
-//  lgn:"",
-//  lat:"",
-//  indexScore:0,
-//  indexCategory:"",
-//  religion:"",
-//	allReligions:0,
-//  religionPct:0,
-//  religionPop:0
-//}]
-//
-// nest by country
-// get totals
-// calculate pct
 
 function getCountryData(data){
 
@@ -84,15 +147,27 @@ function getReligionData(data){
 		return religionDataSorted;
 }
 
-function getMapData(data){
+function getIndexData(data){
+
+	const indexData = d3.nest()
+		.key(d=>d.indexCategory)
+		.rollup(values=>d3.mean(values, d=>d.indexScore))
+		.entries(data)
+		
+	const indexDataSorted = indexData.sort((a,b)=>a.value-b.value)
+		
+	return indexDataSorted;
 
 }
 
-// state
+
+
+// application state
 
 const countrySelection = "United States";
 const axisToggle = 1;
 const metricToggle = 1;
+// question: how do I make this automatically on load?
 const filterStates = {
         "authoritarian":1,
         "hybridregime":1,
@@ -101,36 +176,126 @@ const filterStates = {
       };
 
 
+
 // dispatch
 
 const globalDispatch = d3.dispatch("change:country", "change:axis", "change:metric","change:filter");
 
-globalDispatch.on('change:country', () =>{})
+globalDispatch.on('change:country', () =>{
 
-globalDispatch.on('change:axis', () =>{})
+})
 
-globalDispatch.on('change:metric', () =>{})
+globalDispatch.on('change:axis', () =>{
 
-globalDispatch.on('change:filter', () =>{})
+})
+
+globalDispatch.on('change:metric', () =>{
+
+})
+
+globalDispatch.on('change:filter', () =>{
+
+})
+
 
 
 // ui
 
 function renderCategoryOptions(){
-  // html checkboxes in fieldset
+
+	countryDataPromise.then(data=>{
+			
+		const categories = getIndexData(data);
+		const dom = d3.select("#legend")
+			.append("div")
+			.attr("class","category-options");
+
+		const option = dom.selectAll(".option")
+			.data(categories)
+
+		const optionEnter = option.enter()
+			.append("div")
+			.attr("class","option");
+
+		const widget = optionEnter
+			.append("input")
+			.attr("type","checkbox")
+			.attr("id",d=>makeKey(d.key))
+			// todo: read state object
+			.attr("class",d=>`option-${makeKey(d.key)}`)
+			.on("change",function(){
+				// todo: replace with dispatch
+				// console.log(this.checked)
+				console.log(d3.select(this).attr("id"))
+			});
+
+		const label = optionEnter
+			.append("label")
+			.attr("for",d=>makeKey(d.key))
+			.text(d=>d.key);
+				
+	})
 }
 
 function renderValueToggle(){
-  // html checkbox
+
+	const dom = d3.select("#axis")
+		.append("div")
+		.attr("class","value-toggle")
+		.append("input")
+		.attr("type","checkbox")
+		.attr("id","value-toggle")
+		.on("change",function(){
+			// todo: replace with dispatch
+			// console.log(this.checked)
+			console.log(d3.select(this).attr("id"))
+		});
+	
 }
 
 function renderAxisToggle(){
-  // html checkbox
+
+	const dom = d3.select("#axis")
+		.append("div")
+		.attr("class","axis-toggle")
+		.append("input")
+		.attr("type","checkbox")
+		.attr("id","axis-toggle")
+		.on("change",function(){
+			// todo: replace with dispatch
+			// console.log(this.checked)
+			console.log(d3.select(this).attr("id"))
+		});
+			
 }
 
 function renderCountryMenu(){
-  // html select meu
+
+	countryDataPromise.then(data=>{
+	
+		const countries = getCountryData(data);
+		const dom = d3.select("#legend")
+			.append("div")
+			.attr("class","country-menu")
+			.append("select")
+			.on("change",function(){
+				// todo: replace with dispatch
+				// console.log(this.checked)
+				console.log(this.value)
+			});
+
+		const option = dom.selectAll("option")
+			.data(countries);
+
+		const optionEnter = option.enter()
+			.append("option")
+			// todo: check state object
+			.attr("value",d=>d.key)
+			.text(d=>d.country);
+			
+	});
 }
+
 
 
 // display
@@ -142,7 +307,9 @@ function renderStackedBarChart(data){
   // scale svg to data
 }
 
-function renderCartogram(data){}
+function renderCartogram(data){
+
+}
 
 
 // modules
@@ -165,6 +332,16 @@ function Cartogram(data){
   //  color:""
   //}]
 }
+
+
+
+// utilty
+
+function makeKey(str){
+	const newStr = str.replace(/ /g,"").toLowerCase();
+	return newStr
+}
+
 
 
 </script>
