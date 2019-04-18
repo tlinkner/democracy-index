@@ -204,6 +204,7 @@ data_long$religionPct = data_long$religionPop / data_long$allReligions
 
 write_json(data_long, "democracy_religion_long.json")
 
+write_json(data_wide, "democracy_religion_wide.json")
 
 
 

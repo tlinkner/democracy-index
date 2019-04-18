@@ -1,0 +1,57 @@
+* {box-sizing: border-box;}
+
+body {font-family: sans-serif}
+
+/* layout */
+
+#cartogram, 
+#stackedbar {
+	background: #eee;
+}
+
+#legend, 
+#axis {
+}
+
+/* category options */
+
+.category-options {
+	display: flex;
+	flex-direction: row;
+}
+
+.option {
+	font-family: "IBM Plex Sans Condensed", sans-serif; /* todo: font imports */
+	font-size: 0.875em;
+	text-transform: uppercase;
+}
+
+.option input {
+	position: relative;
+	cursor: pointer;
+}
+
+.option input::after {
+	content: "";
+	position: absolute;
+	top: -0.25em;
+	left: -0.25em;
+	display: block;
+	width: 1.5em;
+	height: 1.5em;
+	background: #bbbbbb;
+	pointer-events: none;
+}
+
+input:checked.option-authoritarian::after {background: #be202e;}
+input:checked.option-hybridregime::after {background: #ce9a2b;}
+input:checked.option-flaweddemocracy::after {background: #76ac42;}
+input:checked.option-fulldemocracy::after {background: #039447;}
+
+.option + .option {
+	margin-left: 1em;
+}
+
+.option input + label {
+	margin-left: 0.25em;
+}

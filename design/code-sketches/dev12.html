@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Document</title>
+<style>
+
+svg {
+	background: pink;
+}
+
+</style>
+</head>
+<body>
+<div class="plot"></div>
+<script src="d3.min.js"></script>  
+<script>
+
+//const countryDataPromise = d3.json("democracy_religion_long.json");
+//countryDataPromise.then(data=>{
+//	const religionData = d3.nest()
+//		.key(d=>d.religion)
+//		.entries(data)
+//		.map(d=>{
+//			const thisReligion = data.filter(j=>j.religion == d.key)
+//			const thisReligionSum = d3.sum(thisReligion,d=>d.religionPop);
+//			d.religionSum = thisReligionSum;
+//			return d;
+//		});
+//	const religionDataSorted = religionData.sort((a,b)=>b.religionSum-a.religionSum)
+//	const stackKeys = d3.nest()
+//		.key(d=>d.indexCategory)
+//		.rollup(values=>d3.mean(values, d=>d.indexScore))
+//		.entries(data)
+//});
+
+// http://web.cse.ohio-state.edu/~shen.94/5544/Slides/D3-layouts.pdf
+
+data = [
+	{day: "M",a:3,b:5,c:12},
+	{day: "TU",a:4,b:6,c:11},
+	{day: "W",a:5,b:7,c:10},
+	{day: "TH",a:6,b:8,c:9},
+	{day: "F",a:5,b:10,c:15}
+]
+
+colors=["red","blue","green"]
+
+sx = d3.scaleBand()
+	.domain(data.map(d=>d.day))
+	.range([0,600])
+	.paddingInner(0.05);
+
+sy = d3.scaleLinear()
+	.domain([0,30])
+	.range([300,0])
+	
+	
+console.log(sx("M"))	
+
+stackGenerator = d3.stack()
+	.keys(["a","b","c"])
+
+dom = d3.select(".plot")
+	.append("svg")
+	.attr("width",600)
+	.attr("height",300)
+
+g = dom.selectAll(".series")
+	.data(stackGenerator(data))
+	.enter()
+	.append("g")
+	.classed("series",true)
+	.attr("fill",(d,i)=>colors[i])
+
+g.selectAll("rect")
+	.data(d=>d)
+	.enter()
+	.append("rect")
+	.attr("x",d=>sx(d.data.day))
+	.attr("y",d=>sy(d[1])) // definitely right
+	.attr("width",sx.bandwidth())	
+	.attr("height",d=>sy(d[0]) - sy(d[1]))	
+	.attr("data-key",d=>d.data.day)
+	.attr("data-0",d=>d[0])
+	.attr("data-1",d=>d[1])
+
+
+</script>
+</body>
+</html>
