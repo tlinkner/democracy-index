@@ -6,9 +6,6 @@ import {makeKey, unmakeKey} from "../util";
 
 export default function renderCategoryOptions(data, state, dispatch) {
 
-
-console.log(state)
-
 	const categories = getCategoryList(data);
 	
 	const dom = d3.select("#legend")

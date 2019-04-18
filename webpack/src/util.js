@@ -21,9 +21,23 @@ function unmakeKey(str){
 
 
 
+function getMax(data,keys){
+
+	console.log(data);
+
+//	tmpData = data.map(d=>{
+//		d.rowNums = d3.sum(keys.map(j=>d[j]))
+//		return d;
+//	});
+//	
+//	return d3.max(tmpData,d=>d.rowNums);
+}
+
+
 // exmport --------------------------------------
 
 export {
 	makeKey,
-	unmakeKey
+	unmakeKey,
+	getMax
 }

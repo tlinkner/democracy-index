@@ -37,9 +37,29 @@ function getCategoryList(data){
 
 
 
+function getCountryData(data){
+
+	const countryData = d3.nest()
+		.key(d=>d.country)
+		.entries(data)
+		.map(d=>{
+			d.indexScore = d.values[0].indexScore;
+			d.indexCategory = d.values[0].indexCategory;
+			d.allReligions = d.values[0].allReligions;
+			d.lat = d.values[0].lat;
+			d.lng = d.values[0].lng;
+			return d
+		})
+		
+	return countryData;
+}
+
+
+
 export {
   democracyDataPromise, 
 	getReligionList, 
-	getCategoryList
+	getCategoryList,
+	getCountryData
 }
 

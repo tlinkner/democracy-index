@@ -2,15 +2,17 @@
 
 import "./style.css";
 import * as d3 from "d3";
-
 import renderMetricToggle from "./modules/metricToggle";
 import renderAxisToggle from "./modules/axisToggle";
 import renderCategoryOptions from "./modules/categoryOptions";
 import renderReligionMenu from "./modules/religionMenu";
-
+import cartogram from "./modules/cartogram";
 import {makeKey} from "./util";
-
-import {democracyDataPromise, getCategoryList} from "./data";
+import {
+	democracyDataPromise, 
+	getCategoryList,
+	getCountryData
+} from "./data";
 
 
 
@@ -20,6 +22,13 @@ const globalState = {
 	axisToggle: 1,
 	metricToggle: 1,
 	religion: "muslim" // set default	
+}
+
+function setCategoryState(data){
+	const categories = getCategoryList(data);
+	categories.forEach(d=>{
+		globalState[makeKey(d.key)] = 1;
+	});
 }
 
 
@@ -64,23 +73,28 @@ democracyDataPromise.then(data => {
 	renderReligionMenu(data, globalState, globalDispatch);
 	
 	// render plot
-	renderPlots(data);
+	renderPlots(data, globalState);
 	
 });
 
 
 
-function setCategoryState(data){
-	const categories = getCategoryList(data);
-	categories.forEach(d=>{
-		globalState[makeKey(d.key)] = 1;
-	});
-}
+function renderPlots(data, state) {
+
+	// axis
+	// if axis == 0: filter by religion
+	// metric
+	// filter by categories
+
+	// send to map
+	
+	// send to plot
+	
 
 
-function renderPlots(data) {
+//	console.log(globalState)
 
-	console.log(globalState)
+	cartogram(getCountryData(data));
 
 }
 

@@ -5,13 +5,8 @@ body {
 	font-family: sans-serif;
 }
 
-svg {
-	background: #eee;
-}
-
 /* layout */
 
-#cartogram svg,
 #stackedbar svg {
 	background: #eee;
 }
@@ -69,5 +64,5 @@ input:checked.option-fulldemocracy::after {background: #039447;}
 .cartogram-label {
 	font-family: "IBM Plex Sans Condensed", sans-serif; /* todo: font imports */
 	text-transform: uppercase;
-	fill: #999999;
+	fill: #aaaaaa;
 }
