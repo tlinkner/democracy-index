@@ -11,6 +11,7 @@
 <div id="cartogram"></div>
 <div id="legend"></div>
 <div id="axis"></div>
+<div id="stackedbar"></div>
 <footer class="footer">
 	<p>Credits</p>
 </footer>
@@ -28,7 +29,7 @@ countryDataPromise.then(data=>{
 	renderCategoryOptions(data);
 	renderValueToggle();
 	renderAxisToggle();
-	renderCharts();
+	renderCharts(data);
 });
 
 function filterByCountry(data,country){}
@@ -85,9 +86,33 @@ function getReligionMenuData(data){
 		return religionData;
 }
 
-function getReligionPlotData(data){}
+function getReligionPlotData(data){
 
-function getCountryPlotData(data){}
+	const categories = getCategories(data);
+
+	const religionData = d3.nest()
+		.key(d=>d.religion)
+		.entries(data)
+		.map(d=>{
+			categories.forEach(j=>{
+				d[j.key] = getCategorySum(d.values,j.category)
+			})
+			const thisReligion = data.filter(j=>j.religion == d.key)
+			const thisReligionSum = d3.sum(thisReligion,d=>d.religionPop);
+			d.religionSum = thisReligionSum;
+			return d;
+		})
+		.sort((a,b)=>a.religionSum-b.religionSum);
+		
+	return religionData;
+
+}
+
+function getCountryPlotData(data){
+
+
+
+}
 
 
 
@@ -206,28 +231,29 @@ function renderAxisToggle(){
 
 // views
 
-function renderCharts(){
-	countryDataPromise.then(data=>{
-	
+function renderCharts(data){
+
+		// categories
+		const categories = getCategories(data);
+
 		// read state
 		const religion = GlobalState.religion;
 		
 		// filter
 		const filteredData = filterByCountry(data,religion);
 		
-		if(GlobalState.axisToggle===1) {
-			let countryMapData = getCountryMapData(data);
-			const countryPlotData = getCountryPlotData(data)
-			renderPlot(countryPlotData);
-			renderCartogram(countryMapData);
-		} else {
-			const countryMapData = getCountryMapData(filteredData);
-			const religionPlotData = getReligionPlotData(filteredData)
-			renderPlot(religionPlotData);
-			renderCartogram(countryMapData);
-		}
+//		if(GlobalState.axisToggle===1) {
+//			const countryMapData = getCountryMapData(filteredData);
+			renderPlot(data,categories);
 			
-	});
+//			renderCartogram(countryMapData);
+//		} else {
+//			let countryMapData = getCountryMapData(data);
+//			const countryPlotData = getCountryPlotData(data)
+//			renderPlot(countryPlotData);
+//			renderCartogram(countryMapData);
+//		}
+			
 }
 
 function renderCartogram(data){
@@ -309,13 +335,73 @@ function renderCartogram(data){
 
 }
 
-function renderPlot(countryPlotData){
-		// read state
-		const metric = GlobalState.metricToggle;
-		// setup data
-		if (metric === 1) {
-		} else {
-		}
+function renderPlot(data){
+
+	const religionPlotData = getReligionPlotData(data)
+
+	const categories = getCategories(data)
+	
+	const indexKeys = categories.map(d=>{
+		return d.key;
+	})
+
+	const maxN = getMax(data, indexKeys);
+	
+	const nRows = religionPlotData.length
+	const rowHeight = 15;
+	const rowMargin = 5;
+	
+	const plotHeight = (nRows * rowHeight) + ((nRows - 1) * rowMargin)
+
+	sy = d3.scaleBand()
+		.domain(data.map(d=>d.key))
+		.range([plotHeight,0])
+		.paddingInner(rowMargin/rowHeight);
+
+	sx = d3.scaleLinear()
+		.domain([0,maxN])
+		.range([0,500])
+
+	// todo: abstract
+	colors=["red","orange","lime", "green"]
+
+	stackGenerator = d3.stack()
+		.keys(indexKeys)
+
+	const dom = d3.select("#stackedbar")
+		.append("svg")
+		.attr("width",600)
+		.attr("height",plotHeight)
+
+	const plot = dom.append("g")
+		.attr("transform","translate(100,0)")
+
+	const bars = plot.selectAll(".series")
+		.data(stackGenerator(data))
+		.enter()
+		.append("g")
+		.classed("series",true)
+		.attr("fill",(d,i)=>colors[i])
+
+	bars.selectAll("rect")
+		.data(d=>d)
+		.enter()
+		.append("rect")
+		.attr("x",d=>sx(d[0])) // definitely right
+		.attr("y",d=>sy(d.data.key))
+		.attr("width",d=>sx(d[1])-sx(d[0]))
+		.attr("height",sy.bandwidth())	
+
+
+
+//		// read state
+//		const metric = GlobalState.metricToggle;
+//		// setup data
+//		if (metric === 1) {
+//		} else {
+//		}
+
+
 		
 }
 
@@ -323,17 +409,16 @@ function renderPlot(countryPlotData){
 
 // utilty
 
-function getMax(data){
+function getMax(data,keys){
+
+	const religionData = getReligionPlotData(data);
+
+	tmpData = religionData.map(d=>{
+		d.rowNums = d3.sum(keys.map(j=>d[j]))
+		return d;
+	});
 	
-//	const indexKeys = data.map(d=>{
-//		return d.key;
-//	})
-//
-//	const tmpData = data.map(d=>{
-//		d.rowNums = d3.sum(keys.map(j=>d[j]))
-//		return d;
-//	})
-//	return d3.max(tmpData,d=>d.rowNums);
+	return d3.max(tmpData,d=>d.rowNums);
 }
 
 function getCategorySum(data, category){
