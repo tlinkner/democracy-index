@@ -11,12 +11,12 @@ svg {
 
 /* layout */
 
-#cartogram svg, 
+#cartogram svg,
 #stackedbar svg {
 	background: #eee;
 }
 
-#legend, 
+#legend,
 #axis {
 }
 

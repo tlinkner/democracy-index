@@ -3,21 +3,24 @@
 import "./style.css";
 import * as d3 from "d3";
 
-import {
-	renderCategoryOptions,
-	renderMetricToggle,
-	renderAxisToggle,
-	renderReligionMenu
-} from "./views/Control";
+import renderMetricToggle from "./modules/metricToggle";
+import renderAxisToggle from "./modules/axisToggle";
+import renderCategoryOptions from "./modules/categoryOptions";
+import renderReligionMenu from "./modules/religionMenu";
 
-import {
-	makeKey
-} from "./util";
+import {makeKey} from "./util";
 
-import {
-	democracyDataPromise, 
-	getCategoryList
-} from "./data";
+import {democracyDataPromise, getCategoryList} from "./data";
+
+
+
+// app state ------------------------------------
+
+const globalState = {
+	axisToggle: 1,
+	metricToggle: 1,
+	religion: "muslim" // set default	
+}
 
 
 
@@ -25,9 +28,8 @@ import {
 
 democracyDataPromise.then(data => {
 
-	// set state
+	// set state: update dynamic categories
 	setCategoryState(data);
-	
 	
 	// dispatch
 	const globalDispatch = d3.dispatch(
@@ -39,23 +41,27 @@ democracyDataPromise.then(data => {
 	);
 
 	globalDispatch.on("change:religion", (data, religion) =>{
-		console.log("change religion")
+		globalState.religion = religion;
+		renderPlots(data);
 	})
 	globalDispatch.on("change:axis", (data, axis) =>{
-		console.log("change axis")
+		globalState.axisToggle ^= true;
+		renderPlots(data);
 	})
 	globalDispatch.on("change:metric", (data, metric) =>{
-		console.log("change metric")
+		globalState.metricToggle ^= true;
+		renderPlots(data);
 	})
 	globalDispatch.on("change:category", (data, category) =>{
-		console.log("change category")
+		globalState[category] ^= true;
+		renderPlots(data);
 	})
 
 	// render ui
-	renderCategoryOptions(data, globalDispatch);
-	renderMetricToggle(data, globalDispatch);
-	renderAxisToggle(data, globalDispatch);
-	renderReligionMenu(data, globalDispatch);
+	renderCategoryOptions(data, globalState, globalDispatch);
+	renderMetricToggle(data, globalState, globalDispatch);
+	renderAxisToggle(data, globalState, globalDispatch);
+	renderReligionMenu(data, globalState, globalDispatch);
 	
 	// render plot
 	renderPlots(data);
@@ -64,33 +70,18 @@ democracyDataPromise.then(data => {
 
 
 
-// app state ------------------------------------
-
-const GlobalState = {
-	axisToggle: 1,
-	metricToggle: 1,
-	religion: "muslim" // set default	
-}
-
 function setCategoryState(data){
 	const categories = getCategoryList(data);
 	categories.forEach(d=>{
-		GlobalState[makeKey(d.key)] = 1;
+		globalState[makeKey(d.key)] = 1;
 	});
 }
 
 
-
-// dispatch -------------------------------------
-
-
-
-
-
-// app state ------------------------------------
-
-
 function renderPlots(data) {
 
+	console.log(globalState)
+
 }
+
 
