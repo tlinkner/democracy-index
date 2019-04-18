@@ -1,14 +1,9 @@
-import * as d3 from 'd3';
+// import ---------------------------------------
+
+import * as d3 from "d3";
 
 
-
-function getCategorySum(data, category){
-	const tmpData = data.filter(d=>d.indexCategory===category);
-	const tmpSum = d3.sum(tmpData,d=>d.religionPop);
-	return tmpSum;
-}
-
-
+// functions ------------------------------------
 
 function makeKey(str){
 	const newStr = str.replace(/ /g,"").toLowerCase();
@@ -26,8 +21,9 @@ function unmakeKey(str){
 
 
 
+// exmport --------------------------------------
+
 export {
-	getCategorySum,
 	makeKey,
 	unmakeKey
 }
