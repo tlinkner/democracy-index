@@ -45,7 +45,7 @@ function getCountryData(data){
 		.map(d=>{
 			d.indexScore = d.values[0].indexScore;
 			d.indexCategory = d.values[0].indexCategory;
-			d.allReligions = d.values[0].allReligions;
+			d.totalPop = d3.sum(d.values,j=>j.religionPop);
 			d.lat = d.values[0].lat;
 			d.lng = d.values[0].lng;
 			return d

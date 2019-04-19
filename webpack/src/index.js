@@ -50,39 +50,86 @@ democracyDataPromise.then(data => {
 	);
 
 	globalDispatch.on("change:religion", (data, religion) =>{
+		globalState.axisToggle = 0;
 		globalState.religion = religion;
-		renderPlots(data);
+		renderPlots(data, globalState);
+		updateUI(globalState);
 	})
 	globalDispatch.on("change:axis", (data, axis) =>{
+		console.log("axis")
 		globalState.axisToggle ^= true;
-		renderPlots(data);
+		renderPlots(data, globalState);
+		updateUI(globalState);
+		renderReligionMenu(data, globalState, globalDispatch);
 	})
 	globalDispatch.on("change:metric", (data, metric) =>{
 		globalState.metricToggle ^= true;
-		renderPlots(data);
+		renderPlots(data, globalState);
+		updateUI(globalState);
 	})
 	globalDispatch.on("change:category", (data, category) =>{
 		globalState[category] ^= true;
-		renderPlots(data);
+		renderPlots(data, globalState);
+		updateUI(globalState);
 	})
 
+	
 	// render ui
 	renderCategoryOptions(data, globalState, globalDispatch);
 	renderMetricToggle(data, globalState, globalDispatch);
 	renderAxisToggle(data, globalState, globalDispatch);
 	renderReligionMenu(data, globalState, globalDispatch);
-	
+
+
 	// render plot
-	renderPlots(data, globalState);
+	renderPlots(data, globalState, globalDispatch);
 	
 });
 
 
 
-function renderPlots(data, state) {
+function updateUI(state){
+	// update axis toggle
+	d3.select("#axis-toggle")
+		.call(d=>{
+			if (state.axisToggle===1){
+				d.node().checked = true;
+			} else {
+				d.node().checked = false;
+			}
+		})
+}
 
-	// axis
-	// if axis == 0: filter by religion
+
+
+function renderPlots(data, state, dispatch) {
+
+	let dataFiltered = data;
+
+	// axis and religion filter
+	if (state.axisToggle===0){
+		dataFiltered = data.filter(d=>d.religion===state.religion);
+	} else {
+		dataFiltered = data;
+	}
+
+	// category filters
+	const searchCategories = [];
+	const categories = getCategoryList(data)
+		.forEach(d=>{
+			if (state[makeKey(d.key)]===1){
+				searchCategories.push(d.key);
+			}
+		})
+		
+	dataFiltered = dataFiltered.filter(d=>{
+		if(searchCategories.includes(d.indexCategory)){
+			return d;
+		}
+	})
+
+//		searchKeys.includes(d.indexCategory)
+
 	// metric
 	// filter by categories
 
@@ -90,11 +137,14 @@ function renderPlots(data, state) {
 	
 	// send to plot
 	
+	
+	d3.select('#cartogram')
+		.each(function(){
+			cartogram(this, getCountryData(dataFiltered));
+		});
+	
 
-
-//	console.log(globalState)
-
-	cartogram(getCountryData(data));
+//	cartogram(plot, getCountryData(dataFiltered));
 
 }
 

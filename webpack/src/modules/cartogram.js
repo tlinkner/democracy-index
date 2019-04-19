@@ -3,11 +3,11 @@ import {makeKey} from "../util";
 
 
 
-export default function cartogram(data){
+export default function cartogram(dom, data){
 
 	// set up
 	const w = 760;
-	const h = 380;
+	const h = 320;
 
 	// color map
 	const colorMap = new Map([
@@ -18,11 +18,11 @@ export default function cartogram(data){
 	]);
 	
 	// max
-	const maxReligionPop = d3.max(data, d=>d.allReligions);
+	const maxTotalPop = d3.max(data, d=>d.totalPop);
 
 	// scale for dot size
 	const sr = d3.scaleSqrt()
-		.domain([0,maxReligionPop])
+		.domain([0,maxTotalPop])
 		.range([0,30]);
 
 	// projection
@@ -30,22 +30,16 @@ export default function cartogram(data){
 		.scale((w/640)*100)
 		.translate([w/2, h/2]);
 
-	// data for force layout
-	const dataXY = data.map(d=>{
-		d.x = projection([d.lng,d.lat])[0];
-		d.y = projection([d.lng,d.lat])[1];
-		return d;
-	});
-	
-	// simulation
-	const simulation = d3.forceSimulation(dataXY)
-		.force('collision', d3.forceCollide().radius(5))
-		.on('tick', ticked);
+	const svg = d3.select(dom)
+		.classed('cartogram',true)
+		.selectAll('svg')
+		.data([1]);
+	const svgEnter = svg.enter()
+		.append('svg');
 
-	const plot = d3.select("#cartogram")
-		.append("svg")
-		.attr("width",w)
-		.attr("height",h);
+	const plot = svg.merge(svgEnter)
+		.attr('width', w)
+		.attr('height', h)
 
 	// labels
 	const labels = [
@@ -67,18 +61,18 @@ export default function cartogram(data){
 		.attr("text-anchor","middle")
 
 	// force layout dots
-	function ticked() {
-		const dots = plot.selectAll("circle")
-			.data(dataXY);
+	
+	const dots = plot.selectAll(".dot")
+		.data(data);
+		
+	const dotsEnter = dots.enter()
+			.append("circle")
+			.attr("class","dot");
 
-		const dotsEnter = dots.enter()
-			.append("circle");
-
-		dots.merge(dotsEnter)
-			.attr("cx",d=>d.x)
-			.attr("cy",d=>d.y)
-			// todo: scale radius
-			.attr("r", d=>sr(d.allReligions))
+	dots.merge(dotsEnter)
+			.attr("cx",d=>projection([d.lng,d.lat])[0])
+			.attr("cy",d=>projection([d.lng,d.lat])[1])
+			.attr("r", d=>sr(d.totalPop))
 			.attr("fill",d=>{
 				const k = makeKey(d.indexCategory);
 				return colorMap.get(k);
@@ -86,8 +80,8 @@ export default function cartogram(data){
 			.attr("opacity",0.8)
 			.attr("data-country",d=>d.country)
 
-		dots.exit()
-			.remove();	
-	}
+		dots.exit().remove();	
+	
+	
 }
 
