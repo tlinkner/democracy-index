@@ -40,7 +40,13 @@ a:hover {
 .cartogram, 
 .legend {
 	margin: 0 auto;
-	padding: 0 170px;
+	padding: 12px 170px;
+	width: 1100px;
+}
+
+.stackedbar {
+	margin: 0 auto;
+	padding: 0;
 	width: 1100px;
 }
 
@@ -116,6 +122,8 @@ input:checked.option-fulldemocracy::after {background: #039447;}
 	position: absolute;
 	top: 0;
 	left: 140px;
+	
+	padding: 12px 0;
 	font-size: 12px;
 	line-height: 1em;
 	z-index: +9;
@@ -166,13 +174,65 @@ input:checked.option-fulldemocracy::after {background: #039447;}
 /* stacked bar */
 
 .stackedbar {
-	background: pink;
+
 }
 
 .stackedbar text {
 	font-family: "IBM Plex Sans Condensed", sans-serif; /* todo: font imports */
 	font-size: 12px;
 	text-transform: uppercase;
+}
+
+
+/* religion menu */
+
+.religion-menu {
+  position: relative;
+	margin: 12px 0;
+  width: 160px;
+  overflow: hidden;
+  background: #FFFFFF;
+}
+
+.religion-menu::after {
+  content: "";
+  display: block;
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  box-sizing: border-box;
+  border-top: 0.5em solid #aaaaaa;
+  border-right: 0.5em solid transparent;
+  border-bottom: 0 solid transparent;
+  border-left: 0.5em solid transparent;
+  width: 1em;
+  height: 1em;
+  z-index: +9;
+  pointer-events: none;
+}
+
+.religion-menu select {
+  padding: 2px 4px;
+  width: 100%;
+  border: 1px solid #aaaaaa;
+	border-radius: 0;
+  box-shadow: none;
+	font-size: 12px;
+	text-transform: uppercase;
+  font-family: "IBM Plex Sans Condensed", sans-serif;
+  background: transparent;
+  background-image: none;
+  -webkit-appearance: none;
+  cursor: pointer;
+}
+
+.religion-menu select:focus {
+  outline: none;
+}
+
+.religion-menu select option {
+  font-size: 16px;
+	text-transform: none;
 }
 
 

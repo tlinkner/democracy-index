@@ -64,6 +64,8 @@ democracyDataPromise.then(data => {
 		renderPlots(data, globalState);
 		updateUI(globalState);
 		renderReligionMenu(data, globalState, globalDispatch);
+		
+		console.log("axis")
 	})
 	globalDispatch.on("change:metric", (data, metric) =>{
 		globalState.metricToggle ^= true;
@@ -78,7 +80,7 @@ democracyDataPromise.then(data => {
 	
 	// render ui
 	renderCategoryOptions(data, globalState, globalDispatch);
-	renderMetricToggle(data, globalState, globalDispatch);
+	// renderMetricToggle(data, globalState, globalDispatch);
 	renderAxisToggle(data, globalState, globalDispatch);
 	renderReligionMenu(data, globalState, globalDispatch);
 

@@ -32,47 +32,51 @@ export default function stackedBarChart(dom, keys, data){
 	const stackGenerator = d3.stack()
 		.keys(keys.map(d=>makeKey(d)))
 
-console.log(stackGenerator(data))
+// ===================
+
+	console.group("function stackedBarChart")
+	console.log(data);
 
 	const svg = d3.select(dom)
-		.classed('stachedbar',true)
-		.selectAll('svg')
-		.data([1]);
-		
+		.selectAll("svg")
+		.data([null]);
 	const svgEnter = svg.enter()
-		.append('svg');
-
-	const plot = svg.merge(svgEnter)
+		.append("svg")
 		.attr('width', plotWidth)
-		.attr('height', plotHeight)
-		.append("g")
-		.attr("transform","translate(170,0)")
-		
-	const g = plot.selectAll(".series")
-		.data(stackGenerator(data))
-		.enter()
-		.append("g")
-		.classed("series",true)
-		.attr("fill",d=>colorMap.get(makeKey(d.key)))
+		.attr('height', plotHeight);
 
-	g.selectAll("rect")
-		.data(d=>d)
-		.enter()
-		.append("rect")
+  const g = svgEnter.selectAll("g")
+    .data(stackGenerator(data))
+	
+	g.exit().remove();
+		
+	const gEnter = g.enter()
+    .append("g");
+		
+	g.merge(gEnter)
+    .attr("fill",d=>colorMap.get(makeKey(d.key)))
+		.attr("transform","translate(170,0)");
+		
+// Problem is here: these child nodes are not updating
+// the parent nodes will always be the same 4 categories 
+// from the stack generator.
+		
+	const rect = gEnter.selectAll("rect")
+    .data(d=>d)
+		
+	const rectEnter = rect.enter()
+    .append("rect")
+		
+	rect.merge(rectEnter)
 		.attr("x",d=>sx(d[0]))
 		.attr("y",d=>sy(d.data.key))
 		.attr("width",d=>sx(d[1])-sx(d[0]))
 		.attr("height",sy.bandwidth())	
 
-	 const yAxis = d3.axisLeft()
-		.scale(sy)
-		.tickSize(0)
-
-	dom.append("g")
-		.attr("class", "y axis")
-		.call(yAxis)
-		.attr("transform","translate(100,0)")
-		.select(".domain").remove()
+	rect.exit().remove();
+	
+	console.groupEnd();
+	
 
 }
 
