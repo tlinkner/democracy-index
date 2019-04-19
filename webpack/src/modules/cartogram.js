@@ -29,6 +29,13 @@ export default function cartogram(dom, data){
 	const projection = d3.geoEquirectangular()
 		.scale((w/640)*100)
 		.translate([w/2, h/2]);
+		
+	const title = d3.select(dom)
+		.selectAll("h4")
+		.data([1])
+		.enter()
+		.append("h4")
+		.text("Democracy Index Countries By Relative Population");
 
 	const svg = d3.select(dom)
 		.classed('cartogram',true)
@@ -60,8 +67,6 @@ export default function cartogram(dom, data){
 		.attr("class","cartogram-label")
 		.attr("text-anchor","middle")
 
-	// force layout dots
-	
 	const dots = plot.selectAll(".dot")
 		.data(data);
 		
@@ -81,7 +86,5 @@ export default function cartogram(dom, data){
 			.attr("data-country",d=>d.country)
 
 		dots.exit().remove();	
-	
-	
 }
 

@@ -4,7 +4,7 @@ import * as d3 from "d3";
 
 export default function renderAxisToggle(data, state, dispatch) {
 
-	const dom = d3.select("#axis")
+	const dom = d3.select("#legend")
 		.append("div")
 		.attr("class", "axis-toggle")
 		.append("input")

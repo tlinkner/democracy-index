@@ -11,6 +11,12 @@ h1 {
 	font-weight: 400;
 }
 
+h4 {
+	font-size: 12px;
+	font-weight: 600;
+	text-transform: uppercase;
+}
+
 a {
 	border-bottom: 1px dotted currentColor;
 	color: currentColor;
@@ -24,14 +30,6 @@ a:hover {
 
 
 /* layout */
-
-#stackedbar svg {
-	background: #eee;
-}
-
-#legend,
-#axis {
-}
 
 .intro {
 	margin: 2em auto;
@@ -66,7 +64,8 @@ a:hover {
 
 .option {
 	font-family: "IBM Plex Sans Condensed", sans-serif; /* todo: font imports */
-	font-size: 0.875em;
+	font-size: 12px;
+	line-height: 1em;
 	text-transform: uppercase;
 	user-select: none; /* supported by Chrome and Opera */
 	-webkit-user-select: none; /* Safari */
@@ -86,8 +85,8 @@ a:hover {
 	top: -0.25em;
 	left: -0.25em;
 	display: block;
-	width: 1.5em;
-	height: 1.5em;
+	width: 16px;
+	height: 16px;
 	background: #bbbbbb;
 	pointer-events: none;
 }
@@ -107,11 +106,75 @@ input:checked.option-fulldemocracy::after {background: #039447;}
 
 
 
+/* legend */
+
+.legend {
+	position: relative;
+}
+
+.legend .axis-toggle {
+	position: absolute;
+	top: 0;
+	left: 140px;
+	font-size: 12px;
+	line-height: 1em;
+	z-index: +9;
+}
+
+.legend .axis-toggle input {
+	position: relative;
+	cursor: pointer;
+}
+
+.legend .axis-toggle input::after{
+	box-sizing: border-box;
+	content: "";
+	position: absolute;
+	top: -0.25em;
+	left: -0.25em;
+	display: block;
+	border-top: 8px solid #000000;
+	border-right: 8px solid transparent;
+	border-bottom: 8px solid transparent;
+	border-left: 8px solid #000000;
+	width: 16px;
+	height: 16px;
+	background: #bbbbbb;
+	pointer-events: none;
+}
+
+.legend .axis-toggle input:checked:after{
+	border-top: 8px solid transparent;
+	border-right: 8px solid #000000;
+	border-bottom: 8px solid #000000;
+	border-left: 8px solid transparent;
+}
+
+
+
 /* cartogram */
 
 .cartogram-label {
 	font-family: "IBM Plex Sans Condensed", sans-serif; /* todo: font imports */
-	font-size: 0.8125em;
+	font-size: 12px;
 	text-transform: uppercase;
 	fill: #aaaaaa;
 }
+
+
+
+/* stacked bar */
+
+.stackedbar {
+	background: pink;
+}
+
+.stackedbar text {
+	font-family: "IBM Plex Sans Condensed", sans-serif; /* todo: font imports */
+	font-size: 12px;
+	text-transform: uppercase;
+}
+
+
+
+
