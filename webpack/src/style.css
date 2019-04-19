@@ -1,9 +1,27 @@
 * {box-sizing: border-box;}
 
 body {
-	padding: 2em;
-	font-family: sans-serif;
+	font-family: "IBM Plex Sans", sans-serif;
 }
+
+h1 {
+	margin-bottom: 1em;
+	font-family: "IBM Plex Sans Condensed", sans-serif;
+	font-size: 1.625em;
+	font-weight: 400;
+}
+
+a {
+	border-bottom: 1px dotted currentColor;
+	color: currentColor;
+	text-decoration: none;
+}
+
+a:hover {
+	color: #039447;
+}
+
+
 
 /* layout */
 
@@ -14,6 +32,30 @@ body {
 #legend,
 #axis {
 }
+
+.intro {
+	margin: 2em auto;
+	padding: 0 170px;
+	width: 1100px;
+}
+
+.cartogram, 
+.legend {
+	margin: 0 auto;
+	padding: 0 170px;
+	width: 1100px;
+}
+
+.footer {
+	margin: 5em auto;
+	padding: 0 170px;
+	font-family: "IBM Plex Sans Condensed", sans-serif;
+	font-size: 0.875em;
+	width: 1100px;
+	color: #aaaaaa;
+}
+
+
 
 /* category options */
 
@@ -26,6 +68,11 @@ body {
 	font-family: "IBM Plex Sans Condensed", sans-serif; /* todo: font imports */
 	font-size: 0.875em;
 	text-transform: uppercase;
+	user-select: none; /* supported by Chrome and Opera */
+	-webkit-user-select: none; /* Safari */
+	-khtml-user-select: none; /* Konqueror HTML */
+	-moz-user-select: none; /* Firefox */
+	-ms-user-select: none; /* Internet Explorer/Edge */
 }
 
 .option input {
@@ -59,10 +106,12 @@ input:checked.option-fulldemocracy::after {background: #039447;}
 }
 
 
+
 /* cartogram */
 
 .cartogram-label {
 	font-family: "IBM Plex Sans Condensed", sans-serif; /* todo: font imports */
+	font-size: 0.8125em;
 	text-transform: uppercase;
 	fill: #aaaaaa;
 }

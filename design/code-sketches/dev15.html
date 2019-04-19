@@ -19,7 +19,7 @@ svg {
 <body>
 <div class="map"></div>
 <div class="plot"></div>
-<script src="d3.min.js"></script>  
+<script src="d3.min.js"></script>
 <script>
 
 /*
@@ -72,8 +72,8 @@ renderCharts
 		- getCountryPlotData(filteredData)
 			- renderMap(countryMapData, metric)
 			- renderPlot(countryPlotData, metric)
-			
-			
+
+
 ----
 
 getCategorySum()
@@ -115,13 +115,12 @@ countryDataPromise.then(data=>{
 			return d;
 		})
 		.sort((a,b)=>a.religionSum-b.religionSum);
-		
-	GlobalState.baz = 3;	
-		
-	console.log(GlobalState);
-		
+
+	GlobalState.baz = 3;
+
+
 	dataFiltered = data.filter(d=>d.religion==="christian");
-		
+
 	countryData = d3.nest()
 		.key(d=>d.country)
 		.entries(dataFiltered)
@@ -133,12 +132,12 @@ countryDataPromise.then(data=>{
 			return d;
 		})
 		.sort((a,b)=>a.religionSum-b.religionSum);
-		
+
 
 	renderChart(religionData, categories);
 	renderMap(data)
 //	renderChart(countryData, categories);
-	
+
 });
 
 function renderMap(data){
@@ -172,12 +171,12 @@ function renderMap(data){
     d.y = projection([d.lng,d.lat])[1];
     return d;
   });
-	
+
   var simulation = d3.forceSimulation(dataXY)
     .force('collision', d3.forceCollide().radius(5))
     .on('tick', ticked);
-		
-		
+
+
 	lbl = [
 		{txt:"North America",lat:32.7865,lng:-97.1148},
 		{txt:"South America",lat:-8.7832,lng:-55.4915},
@@ -185,7 +184,7 @@ function renderMap(data){
 		{txt:"Africa",lat:-8.7832,lng:34.5085},
 		{txt:"Asia",lat:34.0479,lng:100.6197}
 	]
-	
+
 	plot.selectAll("text")
 		.data(lbl)
 		.enter()
@@ -227,14 +226,13 @@ function renderChart(data, categories){
 	})
 
 	maxN = getMax(data, indexKeys);
-	
 
 	colors=["red","orange","lime", "green"]
 
 	nRows = data.length
 	rowHeight = 15;
 	rowMargin = 5;
-	
+
 	plotHeight = (nRows * rowHeight) + ((nRows - 1) * rowMargin)
 
 	sy = d3.scaleBand()
@@ -253,7 +251,7 @@ function renderChart(data, categories){
 		.append("svg")
 		.attr("width",600)
 		.attr("height",plotHeight)
-		
+
 	plot = dom.append("g")
 		.attr("transform","translate(100,0)")
 
@@ -271,7 +269,7 @@ function renderChart(data, categories){
 		.attr("x",d=>sx(d[0])) // definitely right
 		.attr("y",d=>sy(d.data.key))
 		.attr("width",d=>sx(d[1])-sx(d[0]))
-		.attr("height",sy.bandwidth())	
+		.attr("height",sy.bandwidth())
 
 	 yAxis = d3.axisLeft()
 		.scale(sy)
@@ -286,6 +284,7 @@ function renderChart(data, categories){
 }
 
 function getCategorySum(data, category){
+
 	const tmpData = data.filter(d=>d.indexCategory===category);
 	const tmpSum = d3.sum(tmpData,d=>d.religionPop)
 	return tmpSum;
@@ -298,7 +297,6 @@ function makeKey(str){
 
 function getMax(data, keys){
 
-console.log(data)
 	tmpData = data.map(d=>{
 		d.rowNums = d3.sum(keys.map(j=>d[j]))
 		return d;

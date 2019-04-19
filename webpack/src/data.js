@@ -1,10 +1,9 @@
 import * as d3 from 'd3';
+import {makeKey} from "./util";
 
 
 
 const democracyDataPromise = d3.json("./data/democracy_religion_long.json");
-
-
 
 function getReligionList(data){
 
@@ -22,8 +21,6 @@ function getReligionList(data){
 	return religionData;
 }
 
-
-
 function getCategoryList(data){
 
 	const categories = d3.nest()
@@ -34,8 +31,6 @@ function getCategoryList(data){
 
 	return categories;
 }
-
-
 
 function getCountryData(data){
 
@@ -54,12 +49,43 @@ function getCountryData(data){
 	return countryData;
 }
 
+function getReligionData(data, categories){
+
+	const religionData = d3.nest()
+		.key(d=>d.religion)
+		.entries(data)
+		.map(d=>{
+			const thisReligion = data.filter(j=>j.religion == d.key)
+			const thisReligionSum = d3.sum(thisReligion,d=>d.religionPop);
+			d.religionSum = thisReligionSum;
+			return d;
+		})
+		.sort((a,b)=>a.religionSum-b.religionSum);		
+		
+	return religionData;
+
+}
+
+function getIndexSums(data,categories){
+
+	const simplifiedData = data.map(d=>{
+		categories.forEach(j=>{
+			const tmpData = d.values.filter(k=>k.indexCategory===j);
+			d[makeKey(j)] = d3.sum(tmpData,d=>d.religionPop);
+		})
+		return d;
+	})
+
+ return simplifiedData;
+}
 
 
 export {
   democracyDataPromise, 
 	getReligionList, 
 	getCategoryList,
-	getCountryData
+	getCountryData,
+	getReligionData,
+	getIndexSums
 }
 

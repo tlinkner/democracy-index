@@ -7,11 +7,15 @@ import renderAxisToggle from "./modules/axisToggle";
 import renderCategoryOptions from "./modules/categoryOptions";
 import renderReligionMenu from "./modules/religionMenu";
 import cartogram from "./modules/cartogram";
+import stackedBarChart from "./modules/stackedBarChart";
 import {makeKey} from "./util";
 import {
 	democracyDataPromise, 
+	getReligionList,
 	getCategoryList,
-	getCountryData
+	getCountryData,
+	getReligionData,
+	getIndexSums
 } from "./data";
 
 
@@ -21,7 +25,7 @@ import {
 const globalState = {
 	axisToggle: 1,
 	metricToggle: 1,
-	religion: "muslim" // set default	
+	religion: "muslim"
 }
 
 function setCategoryState(data){
@@ -56,7 +60,6 @@ democracyDataPromise.then(data => {
 		updateUI(globalState);
 	})
 	globalDispatch.on("change:axis", (data, axis) =>{
-		console.log("axis")
 		globalState.axisToggle ^= true;
 		renderPlots(data, globalState);
 		updateUI(globalState);
@@ -72,7 +75,6 @@ democracyDataPromise.then(data => {
 		renderPlots(data, globalState);
 		updateUI(globalState);
 	})
-
 	
 	// render ui
 	renderCategoryOptions(data, globalState, globalDispatch);
@@ -80,13 +82,10 @@ democracyDataPromise.then(data => {
 	renderAxisToggle(data, globalState, globalDispatch);
 	renderReligionMenu(data, globalState, globalDispatch);
 
-
 	// render plot
 	renderPlots(data, globalState, globalDispatch);
 	
 });
-
-
 
 function updateUI(state){
 	// update axis toggle
@@ -100,13 +99,11 @@ function updateUI(state){
 		})
 }
 
-
-
 function renderPlots(data, state, dispatch) {
 
 	let dataFiltered = data;
 
-	// axis and religion filter
+	// religion filter
 	if (state.axisToggle===0){
 		dataFiltered = data.filter(d=>d.religion===state.religion);
 	} else {
@@ -121,31 +118,30 @@ function renderPlots(data, state, dispatch) {
 				searchCategories.push(d.key);
 			}
 		})
-		
 	dataFiltered = dataFiltered.filter(d=>{
 		if(searchCategories.includes(d.indexCategory)){
 			return d;
 		}
 	})
 
-//		searchKeys.includes(d.indexCategory)
-
-	// metric
-	// filter by categories
-
-	// send to map
-	
-	// send to plot
-	
-	
+	// cartogram
 	d3.select('#cartogram')
 		.each(function(){
 			cartogram(this, getCountryData(dataFiltered));
 		});
+
+	// stacked bar chart
+	let barData = [];
+	if (state.axisToggle===0){
+		barData = getCountryData(dataFiltered);
+	} else {
+		barData = getReligionData(dataFiltered, getCategoryList(data).map(d=>d.key))
+	}
 	
-
-//	cartogram(plot, getCountryData(dataFiltered));
-
+	d3.select('#stackedbar')
+		.each(function(){
+			stackedBarChart(this, getCategoryList(data).map(d=>d.key), getIndexSums(barData,getCategoryList(data).map(d=>d.key)))
+		})
 }
 
 

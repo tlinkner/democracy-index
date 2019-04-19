@@ -10,8 +10,6 @@ function makeKey(str){
 	return newStr;
 }
 
-
-
 function unmakeKey(str){
 	const newStr = str.replace(/([A-Z])/g, " $1")
 		.trim()
@@ -19,17 +17,15 @@ function unmakeKey(str){
 	return newStr;
 }
 
+function getMax(data, keys){
 
-
-function getMax(data,keys){
-
-//	tmpData = data.map(d=>{
-//		d.rowNums = d3.sum(keys.map(j=>d[j]))
-//		return d;
-//	});
-//	
-//	return d3.max(tmpData,d=>d.rowNums);
+	const tmpData = data.map(d=>{
+		d.rowNums = d3.sum(keys.map(j=>d[j]))
+		return d;
+	})
+	return d3.max(tmpData,d=>d.rowNums);
 }
+
 
 
 // exmport --------------------------------------
