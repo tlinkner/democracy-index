@@ -37,7 +37,7 @@ a:hover {
 	width: 1100px;
 }
 
-.cartogram, 
+.cartogram,
 .legend {
 	margin: 0 auto;
 	padding: 12px 170px;
@@ -122,7 +122,7 @@ input:checked.option-fulldemocracy::after {background: #039447;}
 	position: absolute;
 	top: 0;
 	left: 140px;
-	
+
 	padding: 12px 0;
 	font-size: 12px;
 	line-height: 1em;
@@ -234,7 +234,3 @@ input:checked.option-fulldemocracy::after {background: #039447;}
   font-size: 16px;
 	text-transform: none;
 }
-
-
-
-

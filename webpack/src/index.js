@@ -8,9 +8,10 @@ import renderCategoryOptions from "./modules/categoryOptions";
 import renderReligionMenu from "./modules/religionMenu";
 import cartogram from "./modules/cartogram";
 import stackedBarChart from "./modules/stackedBarChart";
+// import stackedBarChart from "./modules/stackedBar2";
 import {makeKey} from "./util";
 import {
-	democracyDataPromise, 
+	democracyDataPromise,
 	getReligionList,
 	getCategoryList,
 	getCountryData,
@@ -23,15 +24,15 @@ import {
 // app state ------------------------------------
 
 const globalState = {
-	axisToggle: 1,
-	metricToggle: 1,
+	axisToggle: true,
+	metricToggle: true,
 	religion: "muslim"
 }
 
 function setCategoryState(data){
 	const categories = getCategoryList(data);
 	categories.forEach(d=>{
-		globalState[makeKey(d.key)] = 1;
+		globalState[makeKey(d.key)] = true;
 	});
 }
 
@@ -43,41 +44,45 @@ democracyDataPromise.then(data => {
 
 	// set state: update dynamic categories
 	setCategoryState(data);
-	
+
 	// dispatch
 	const globalDispatch = d3.dispatch(
-		"change:religion", 
-		"change:axis", 
+		"general:update",
+		"change:religion",
+		"change:axis",
 		"change:metric",
 		"change:category",
 		"change:foo"
 	);
 
+	globalDispatch.on("general:update", (data) =>{
+		renderPlots(data, globalState, globalDispatch);
+		updateUI(globalState);
+	})
+
 	globalDispatch.on("change:religion", (data, religion) =>{
-		globalState.axisToggle = 0;
+		globalState.axisToggle = false;
 		globalState.religion = religion;
-		renderPlots(data, globalState);
+		renderPlots(data, globalState, globalDispatch);
 		updateUI(globalState);
 	})
 	globalDispatch.on("change:axis", (data, axis) =>{
-		globalState.axisToggle ^= true;
-		renderPlots(data, globalState);
-		updateUI(globalState);
+		globalState.axisToggle = !globalState.axisToggle;
+		renderPlots(data, globalState, globalDispatch);
 		renderReligionMenu(data, globalState, globalDispatch);
-		
-		console.log("axis")
+		updateUI(globalState);
 	})
 	globalDispatch.on("change:metric", (data, metric) =>{
-		globalState.metricToggle ^= true;
-		renderPlots(data, globalState);
+		globalState.metricToggle = !globalState.metricToggle;
+		renderPlots(data, globalState, globalDispatch);
 		updateUI(globalState);
 	})
 	globalDispatch.on("change:category", (data, category) =>{
-		globalState[category] ^= true;
-		renderPlots(data, globalState);
+		globalState[category] = !globalState[category];
+		renderPlots(data, globalState, globalDispatch);
 		updateUI(globalState);
 	})
-	
+
 	// render ui
 	renderCategoryOptions(data, globalState, globalDispatch);
 	// renderMetricToggle(data, globalState, globalDispatch);
@@ -85,15 +90,15 @@ democracyDataPromise.then(data => {
 	renderReligionMenu(data, globalState, globalDispatch);
 
 	// render plot
-	renderPlots(data, globalState, globalDispatch);
-	
+	globalDispatch.call("general:update",null,data)
+
 });
 
 function updateUI(state){
 	// update axis toggle
 	d3.select("#axis-toggle")
 		.call(d=>{
-			if (state.axisToggle===1){
+			if (state.axisToggle===true){
 				d.node().checked = true;
 			} else {
 				d.node().checked = false;
@@ -103,10 +108,13 @@ function updateUI(state){
 
 function renderPlots(data, state, dispatch) {
 
+// todo, try passing SVGs
+
+
 	let dataFiltered = data;
 
 	// religion filter
-	if (state.axisToggle===0){
+	if (state.axisToggle===false){
 		dataFiltered = data.filter(d=>d.religion===state.religion);
 	} else {
 		dataFiltered = data;
@@ -116,7 +124,7 @@ function renderPlots(data, state, dispatch) {
 	const searchCategories = [];
 	const categories = getCategoryList(data)
 		.forEach(d=>{
-			if (state[makeKey(d.key)]===1){
+			if (state[makeKey(d.key)]===true){
 				searchCategories.push(d.key);
 			}
 		})
@@ -134,16 +142,18 @@ function renderPlots(data, state, dispatch) {
 
 	// stacked bar chart
 	let barData = [];
-	if (state.axisToggle===0){
+
+	if (state.axisToggle===false){
 		barData = getCountryData(dataFiltered);
 	} else {
 		barData = getReligionData(dataFiltered, getCategoryList(data).map(d=>d.key))
 	}
-	
+
 	d3.select('#stackedbar')
 		.each(function(){
-			stackedBarChart(this, getCategoryList(data).map(d=>d.key), getIndexSums(barData,getCategoryList(data).map(d=>d.key)))
+			stackedBarChart(
+				this, // dom
+				getCategoryList(data).map(d=>d.key), // keys
+				getIndexSums(barData,getCategoryList(data).map(d=>d.key))) // data
 		})
 }
-
-

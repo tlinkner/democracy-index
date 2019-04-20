@@ -11,7 +11,7 @@ export default function renderMetricToggle(data, state, dispatch) {
 		.attr("type", "checkbox")
 		.attr("id", "metric-toggle")
 		.call(d=>{
-			if (state.metricToggle===1){
+			if (state.metricToggle===true){
 				d.node().checked = true;
 			} else {
 				d.node().checked = false;
@@ -21,5 +21,5 @@ export default function renderMetricToggle(data, state, dispatch) {
 			dispatch.call("change:metric",null,data, this.checked)
 		}
 	)
-	
+
 }

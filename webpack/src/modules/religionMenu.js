@@ -6,7 +6,7 @@ import {makeKey, unmakeKey} from "../util";
 
 export default function renderReligionMenu(data, state, dispatch) {
 
-	if (state.axisToggle===0) {
+	if (state.axisToggle===false) {
 		const religions = getReligionList(data);
 
 		const dom = d3.select("#legend")
@@ -33,4 +33,3 @@ export default function renderReligionMenu(data, state, dispatch) {
 		d3.select(".religion-menu").remove();
 	}
 }
-

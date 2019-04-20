@@ -4,7 +4,6 @@ import {makeKey, getMax} from "../util"
 
 export default function stackedBarChart(dom, keys, data){
 
-	// color map
 	const colorMap = new Map([
 		["authoritarian","#be202e"],
 		["hybridregime","#ce9a2b"],
@@ -13,8 +12,8 @@ export default function stackedBarChart(dom, keys, data){
 	]);
 
 	const nRows = data.length
-	const rowHeight = 30;
-	const rowMargin = 10;
+	const rowHeight = 20;
+	const rowMargin = 5;
 	const plotWidth = 1100;
 	const plotHeight = (nRows * rowHeight) + ((nRows - 1) * rowMargin)
 
@@ -32,52 +31,38 @@ export default function stackedBarChart(dom, keys, data){
 	const stackGenerator = d3.stack()
 		.keys(keys.map(d=>makeKey(d)))
 
-// ===================
-
-	console.group("function stackedBarChart")
-	console.log(data);
-	console.log("plotHeight"+plotHeight);
-
-	const svg = d3.select(dom)
-		.selectAll("svg")
+	const svg = d3.select(dom).selectAll("svg")
 		.data([1]);
 	const svgEnter = svg.enter()
 		.append("svg");
-	svg.merge(svgEnter)
+	const svgEnterUpdate = svg.merge(svgEnter)
 		.attr('width', plotWidth)
 		.attr('height', plotHeight);
 
-  const g = svgEnter.selectAll("g")
-    .data(stackGenerator(data))
+  const column = svgEnterUpdate.selectAll(".column")
+    .data(stackGenerator(data));
 
-	g.exit().remove();
+	const columnEnter = column.enter()
+    .append("g")
+		.attr("class","column");
 
-	const gEnter = g.enter()
-    .append("g");
-
-	g.merge(gEnter)
+	const columnEnterUpdate = column.merge(columnEnter)
     .attr("fill",d=>colorMap.get(makeKey(d.key)))
 		.attr("transform","translate(170,0)");
 
-// Problem is here: these child nodes are not updating
-// the parent nodes will always be the same 4 categories
-// from the stack generator.
+	const row = columnEnterUpdate.selectAll(".row")
+    .data(d=>d);
 
-	const rect = gEnter.selectAll("rect")
-    .data(d=>d)
-
-	const rectEnter = rect.enter()
+	const rowEnter = row.enter()
     .append("rect")
+		.attr("class","row")
 
-	rect.merge(rectEnter)
+	row.merge(rowEnter)
 		.attr("x",d=>sx(d[0]))
 		.attr("y",d=>sy(d.data.key))
 		.attr("width",d=>sx(d[1])-sx(d[0]))
 		.attr("height",sy.bandwidth())
+		.attr("data-foo",d=>d.data.key)
 
-	rect.exit().remove();
-
-	console.groupEnd();
-
-
+	row.exit().remove();
 }

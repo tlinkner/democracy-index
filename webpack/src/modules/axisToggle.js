@@ -11,7 +11,7 @@ export default function renderAxisToggle(data, state, dispatch) {
 		.attr("type", "checkbox")
 		.attr("id", "axis-toggle")
 		.call(d=>{
-			if (state.axisToggle===1){
+			if (state.axisToggle===true){
 				d.node().checked = true;
 			} else {
 				d.node().checked = false;
@@ -21,5 +21,5 @@ export default function renderAxisToggle(data, state, dispatch) {
 			dispatch.call("change:axis",null,data, this.checked)
 		}
 	)
-	
+
 }
