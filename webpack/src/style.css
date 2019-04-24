@@ -183,6 +183,10 @@ input:checked.option-fulldemocracy::after {background: #039447;}
 	text-transform: uppercase;
 }
 
+.tick line {
+	stroke: #bbbbbb;
+}
+
 
 /* religion menu */
 

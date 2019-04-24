@@ -48,7 +48,7 @@ export default function stackedBarChart(dom, keys, data){
 
 	const columnEnterUpdate = column.merge(columnEnter)
     .attr("fill",d=>colorMap.get(makeKey(d.key)))
-		.attr("transform","translate(170,0)");
+		.attr("transform","translate(170,20)");
 
 	const row = columnEnterUpdate.selectAll(".row")
     .data(d=>d);
@@ -65,4 +65,30 @@ export default function stackedBarChart(dom, keys, data){
 		.attr("data-foo",d=>d.data.key)
 
 	row.exit().remove();
+	
+	let axisXGenerator = d3.axisTop().ticks(5).tickSizeInner(5);
+	let axisYGenerator = d3.axisLeft().tickSizeInner(10);
+	
+	axisXGenerator.scale(sx);
+	axisYGenerator.scale(sy);
+	
+	
+	let axisX = svgEnter.append('g')
+		.attr('class','axis axis-x')
+		.attr('transform', `translate(170,20)`);
+	let axisY = svgEnter.append('g')
+		.attr('class','axis axis-y')
+		.attr('transform', `translate(170,20)`);
+		
+		svgEnter.merge(svg)
+			.select('.axis-x')
+			.call(axisXGenerator)
+
+		svgEnter.merge(svg)
+			.select('.axis-y')
+			.call(axisYGenerator)
+
+	d3.selectAll(".domain").remove()
+	d3.selectAll(".axis-y .tick line").remove()
+	
 }
