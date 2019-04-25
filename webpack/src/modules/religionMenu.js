@@ -11,7 +11,7 @@ export default function renderReligionMenu(data, state, dispatch) {
 
 		const dom = d3.select("#legend")
 			.append("div")
-			.attr("class", "religion-menu")
+			.attr("class", "ui-menu")
 			.append("select")
 			.on("change", function (d) {
 				dispatch.call("change:religion",null,data, this.value)

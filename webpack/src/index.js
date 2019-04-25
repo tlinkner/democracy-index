@@ -8,8 +8,11 @@ import renderCategoryOptions from "./modules/categoryOptions";
 import renderReligionMenu from "./modules/religionMenu";
 import cartogram from "./modules/cartogram";
 import stackedBarChart from "./modules/stackedBarChart";
-// import stackedBarChart from "./modules/stackedBar2";
 import {makeKey} from "./util";
+import {
+	countryMenu,
+	indexExplorer
+} from "./modules/indexExplorer";
 import {
 	democracyDataPromise,
 	getReligionList,
@@ -52,7 +55,7 @@ democracyDataPromise.then(data => {
 		"change:axis",
 		"change:metric",
 		"change:category",
-		"change:foo"
+		"change:country"
 	);
 
 	globalDispatch.on("general:update", (data) =>{
@@ -82,12 +85,19 @@ democracyDataPromise.then(data => {
 		renderPlots(data, globalState, globalDispatch);
 		updateUI(globalState);
 	})
+	globalDispatch.on("change:country", (country) =>{
+		countryMenu(data, country, globalDispatch);
+		indexExplorer(data,country);
+	})
 
 	// render ui
 	renderCategoryOptions(data, globalState, globalDispatch);
 	// renderMetricToggle(data, globalState, globalDispatch);
 	renderAxisToggle(data, globalState, globalDispatch);
 	renderReligionMenu(data, globalState, globalDispatch);
+	
+	// render explorer
+	globalDispatch.call("change:country",null,"United States")
 
 	// render plot
 	globalDispatch.call("general:update",null,data)

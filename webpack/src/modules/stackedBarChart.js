@@ -10,7 +10,7 @@ export default function stackedBarChart(dom, keys, data){
 		["flaweddemocracy","#76ac42"],
 		["fulldemocracy","#039447"]
 	]);
-
+	
 	const nRows = data.length
 	const rowHeight = 20;
 	const rowMargin = 5;
@@ -37,7 +37,7 @@ export default function stackedBarChart(dom, keys, data){
 		.append("svg");
 	const svgEnterUpdate = svg.merge(svgEnter)
 		.attr('width', plotWidth)
-		.attr('height', plotHeight);
+		.attr('height', plotHeight>0 ? plotHeight: 10);
 
   const column = svgEnterUpdate.selectAll(".column")
     .data(stackGenerator(data));

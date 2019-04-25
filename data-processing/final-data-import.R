@@ -152,6 +152,11 @@ data_wide <- merge(democracyIndex, religion, by="country")
 data_wide <- data_wide[,c(
   "country",
   "demScore",
+  "demPluralism",
+  "demFunctioning",
+  "demParticipation",
+  "demCulture",
+  "demCivil",
   "demCategory",
   "christian",
   "muslim",
@@ -166,6 +171,11 @@ data_wide <- data_wide[,c(
 names(data_wide) <- c(
   "country",
   "indexScore",
+  "indexPluralism",
+  "indexFunctioning",
+  "indexParticipation",
+  "indexCulture",
+  "indexCivil",
   "indexCategory",
   "christian",
   "muslim",

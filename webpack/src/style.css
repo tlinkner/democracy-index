@@ -190,20 +190,20 @@ input:checked.option-fulldemocracy::after {background: #039447;}
 
 /* religion menu */
 
-.religion-menu {
+.ui-menu {
   position: relative;
 	margin: 12px 0;
-  width: 160px;
+  width: 240px;
   overflow: hidden;
   background: #FFFFFF;
 }
 
-.religion-menu::after {
+.ui-menu::after {
   content: "";
   display: block;
   position: absolute;
-  top: 8px;
-  right: 8px;
+  top: 9px;
+  right: 9px;
   box-sizing: border-box;
   border-top: 0.5em solid #aaaaaa;
   border-right: 0.5em solid transparent;
@@ -215,7 +215,7 @@ input:checked.option-fulldemocracy::after {background: #039447;}
   pointer-events: none;
 }
 
-.religion-menu select {
+.ui-menu select {
   padding: 2px 4px;
   width: 100%;
   border: 1px solid #aaaaaa;
@@ -230,11 +230,49 @@ input:checked.option-fulldemocracy::after {background: #039447;}
   cursor: pointer;
 }
 
-.religion-menu select:focus {
+.ui-menu select:focus {
   outline: none;
 }
 
-.religion-menu select option {
+.ui-menu select option {
   font-size: 16px;
 	text-transform: none;
+}
+
+
+/* index table */
+
+.index-explorer {
+  width: 240px;
+}
+
+.index-menu .ui-menu {
+ margin: 0;
+}
+
+.index-table {
+	border-collapse: collapse;
+  width: 240px;
+}
+
+.index-table td:first-child {
+	width: 30px;
+}
+
+.index-table td[colspan="2"] {
+	text-transform: uppercase;
+	color: #ffffff;
+	background-color: #aaaaaa;
+}
+
+.index-table th,
+.index-table td {
+	padding: 2px 4px;
+	font-size: 12px;
+	line-height: 1.4em;
+	vertical-align: top;
+}
+
+.index-table th {
+	text-align: left
 }

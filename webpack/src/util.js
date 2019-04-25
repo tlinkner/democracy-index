@@ -20,15 +20,15 @@ function unmakeKey(str){
 function getMax(data, keys){
 
 	const tmpData = data.map(d=>{
-		d.rowNums = d3.sum(keys.map(j=>d[j]))
+		d.rowMax = d3.sum(keys.map(j=>d[j]))
 		return d;
 	})
-	return d3.max(tmpData,d=>d.rowNums);
+	return d3.max(tmpData,d=>d.rowMax);
 }
 
 
 
-// exmport --------------------------------------
+// export --------------------------------------
 
 export {
 	makeKey,

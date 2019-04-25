@@ -2,8 +2,9 @@
 
 ## Design
 
-* controls to transpose axes
-* on transpose, only show one religion at at time, add select menu or toggle with dots.
-
+* country tooltip
+* composition/count toggle
+* democracy index explorer
+* persistent limits for chart scales
 
 

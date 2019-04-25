@@ -45,6 +45,7 @@ function getCountryData(data){
 			d.lng = d.values[0].lng;
 			return d
 		})
+		.sort((a,b)=>a.totalPop-b.totalPop);		
 		
 	return countryData;
 }
@@ -56,11 +57,11 @@ function getReligionData(data, categories){
 		.entries(data)
 		.map(d=>{
 			const thisReligion = data.filter(j=>j.religion == d.key)
-			const thisReligionSum = d3.sum(thisReligion,d=>d.religionPop);
-			d.religionSum = thisReligionSum;
+			const totalPop = d3.sum(thisReligion,d=>d.religionPop);
+			d.totalPop = totalPop;
 			return d;
 		})
-		.sort((a,b)=>a.religionSum-b.religionSum);		
+		.sort((a,b)=>a.totalPop-b.totalPop);		
 		
 	return religionData;
 
