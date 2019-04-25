@@ -1,16 +1,12 @@
 import * as d3 from "d3";
+import colorMap from "./colorMap";
 import {makeKey, getMax} from "../util"
 
 
 export default function stackedBarChart(dom, keys, data){
 
-	const colorMap = new Map([
-		["authoritarian","#be202e"],
-		["hybridregime","#ce9a2b"],
-		["flaweddemocracy","#76ac42"],
-		["fulldemocracy","#039447"]
-	]);
-	
+	const c = colorMap();
+
 	const nRows = data.length
 	const rowHeight = 20;
 	const rowMargin = 5;
@@ -47,7 +43,7 @@ export default function stackedBarChart(dom, keys, data){
 		.attr("class","column");
 
 	const columnEnterUpdate = column.merge(columnEnter)
-    .attr("fill",d=>colorMap.get(makeKey(d.key)))
+    .attr("fill",d=>c.get(makeKey(d.key)))
 		.attr("transform","translate(170,20)");
 
 	const row = columnEnterUpdate.selectAll(".row")

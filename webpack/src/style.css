@@ -295,3 +295,15 @@ input:checked.option-fulldemocracy::after {background: #039447;}
 .index-table th {
 	text-align: left
 }
+
+
+/* tooltip */
+
+.tooltip {
+  position: absolute;
+  padding: 4px;
+  font-size: 0.75em;
+	text-transform: uppercase;
+  background: #EEEEEE;
+  z-index: +9;
+}

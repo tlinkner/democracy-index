@@ -1,4 +1,5 @@
 import * as d3 from "d3";
+import colorMap from "./colorMap";
 import {makeKey, getMax} from "../util"
 
 
@@ -41,12 +42,7 @@ function countryMenu(data, country, dispatch){
 
 function indexExplorer(data, country){
 
-	const colorMap = new Map([
-		["authoritarian","#be202e"],
-		["hybridregime","#ce9a2b"],
-		["flaweddemocracy","#76ac42"],
-		["fulldemocracy","#039447"]
-	]);
+	const c = colorMap();
 
 	const dataFiltered = data.filter(d=>d.country===country)[0];
 	
@@ -67,11 +63,11 @@ function indexExplorer(data, country){
 	d3.select("#indexCivil")
 		.text(dataFiltered.indexCivil.toFixed(2))
 
-	const c = colorMap.get(makeKey(dataFiltered.indexCategory));
+	const colorCode = c.get(makeKey(dataFiltered.indexCategory));
 
 	d3.select("#indexCategory")
 		.select(function() { return this.parentNode; })
-		.style("background-color",c)
+		.style("background-color",colorCode)
 
 }
 

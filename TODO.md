@@ -1,10 +1,6 @@
 # TODO
 
-## Design
-
-* country tooltip
-* composition/count toggle
-* democracy index explorer
+* framing story
 * persistent limits for chart scales
 
-
+* composition/count toggle

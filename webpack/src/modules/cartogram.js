@@ -1,22 +1,21 @@
 import * as d3 from "d3";
+import colorMap from "./colorMap";
 import {makeKey} from "../util";
+import {
+	makeToolTip,
+	destroyToolTip
+} from "./toolTip";
 
 
 
 export default function cartogram(dom, data){
 
+	const c = colorMap();
+
 	// set up
 	const w = 760;
 	const h = 320;
 
-	// color map
-	const colorMap = new Map([
-		["authoritarian","#be202e"],
-		["hybridregime","#ce9a2b"],
-		["flaweddemocracy","#76ac42"],
-		["fulldemocracy","#039447"]
-	]);
-	
 	// max
 	const maxTotalPop = d3.max(data, d=>d.totalPop);
 
@@ -73,6 +72,13 @@ export default function cartogram(dom, data){
 	const dotsEnter = dots.enter()
 			.append("circle")
 			.attr("class","dot");
+			
+	dotsEnter
+		.on("mouseover",d=>{
+      makeToolTip(d.key)
+    })
+    .on("mouseout", destroyToolTip);
+			
 
 	dots.merge(dotsEnter)
 			.attr("cx",d=>projection([d.lng,d.lat])[0])
@@ -80,7 +86,7 @@ export default function cartogram(dom, data){
 			.attr("r", d=>sr(d.totalPop))
 			.attr("fill",d=>{
 				const k = makeKey(d.indexCategory);
-				return colorMap.get(k);
+				return c.get(k);
 			})
 			.attr("opacity",0.8)
 			.attr("data-country",d=>d.country)

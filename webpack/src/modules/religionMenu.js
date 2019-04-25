@@ -11,6 +11,7 @@ export default function renderReligionMenu(data, state, dispatch) {
 
 		const dom = d3.select("#legend")
 			.append("div")
+			.attr("id", "religion-menu")
 			.attr("class", "ui-menu")
 			.append("select")
 			.on("change", function (d) {
@@ -30,6 +31,6 @@ export default function renderReligionMenu(data, state, dispatch) {
 			})
 			.text(d => unmakeKey(d.key));
 	} else {
-		d3.select(".religion-menu").remove();
+		d3.select("#religion-menu").remove();
 	}
 }
