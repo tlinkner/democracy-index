@@ -25,7 +25,7 @@ export default function cartogram(dom, data){
 	// scale for dot size
 	const sr = d3.scaleSqrt()
 		.domain([0,2151880000])
-		.range([0,30]);
+		.range([0,60]);
 
 	// projection
 	const projection = d3.geoEquirectangular()
@@ -40,7 +40,6 @@ export default function cartogram(dom, data){
 		.text("Democracy Index Countries By Relative Population");
 
 	const svg = d3.select(dom)
-		.classed('cartogram',true)
 		.selectAll('svg')
 		.data([1]);
 	const svgEnter = svg.enter()
@@ -70,7 +69,7 @@ export default function cartogram(dom, data){
 		.attr("text-anchor","middle")
 
 	const dots = plot.selectAll(".dot")
-		.data(data);
+		.data(data, d=>d.key);
 		
 	const dotsEnter = dots.enter()
 			.append("circle")
@@ -84,8 +83,8 @@ export default function cartogram(dom, data){
 			
 
 	dots.merge(dotsEnter)
-			.attr("cx",d=>projection([d.lng,d.lat])[0])
-			.attr("cy",d=>projection([d.lng,d.lat])[1])
+			.attr("cx",w/2)
+			.attr("cy",h/2)
 			.attr("r", d=>sr(d.totalPop))
 			.attr("fill",d=>{
 				const k = makeKey(d.indexCategory);
@@ -95,5 +94,22 @@ export default function cartogram(dom, data){
 			.attr("data-country",d=>d.country)
 
 		dots.exit().remove();	
+		
+	const simulation = d3.forceSimulation();
+	const forceX = d3.forceX().x(d=>projection([d.lng,d.lat])[0]);
+	const forceY = d3.forceY().y(d=>projection([d.lng,d.lat])[1]);
+	const forceCollide = d3.forceCollide().radius(d=>sr(d.totalPop)+2);
+	simulation
+		.force('x', forceX)
+		.force('y', forceY)
+		.force('collide', forceCollide);
+
+	simulation.on('tick', () => {
+			dots.merge(dotsEnter)
+				.attr('cx', d => d.x)
+				.attr('cy', d => d.y);
+		})
+		.nodes(data, d=>d.key);
+
 }
 

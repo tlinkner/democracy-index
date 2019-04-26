@@ -23,8 +23,6 @@ export default function stackedBarChart(dom, keys, data){
 	
 	let maxN = getMax(data, keys.map(d=>makeKey(d)));
 	
-	console.log(maxN)
-
 	// kind of a hack. 
 	if (globalState.axisToggle === true) {
 		maxN = 2151880000;
@@ -39,10 +37,12 @@ export default function stackedBarChart(dom, keys, data){
 	const stackGenerator = d3.stack()
 		.keys(keys.map(d=>makeKey(d)))
 
-	const svg = d3.select(dom).selectAll("svg")
+	const svg = d3.select(dom)
+		.selectAll("svg")
 		.data([1]);
 	const svgEnter = svg.enter()
 		.append("svg");
+		
 	const svgEnterUpdate = svg.merge(svgEnter)
 		.attr('width', plotWidth)
 		.attr('height', plotHeight>0 ? plotHeight: 20);
