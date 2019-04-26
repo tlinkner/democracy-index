@@ -6,6 +6,8 @@ import {makeKey, getMax} from "../util"
 
 export default function stackedBarChart(dom, keys, data){
 
+	let chartData = data;
+
 	const c = colorMap();
 
 	const nRows = data.length
@@ -23,12 +25,23 @@ export default function stackedBarChart(dom, keys, data){
 	
 	let maxN = getMax(data, keys.map(d=>makeKey(d)));
 	
-	// kind of a hack. 
-	if (globalState.axisToggle === true) {
-		maxN = 2151880000;
-	} else {
-		maxN = 700680000;
-	}
+// kind of a hack. 
+// the beginnings of compositino/count toggle
+//	if (globalState.metricToggle === true) {
+		if (globalState.axisToggle === true) {
+			maxN = 2151880000;
+		} else {
+			maxN = 700680000;
+		}
+//	} else {
+//		chartData = data.map(d=>{
+//			keys.forEach(j=>{
+//				d[makeKey(j)] = Math.round(d[makeKey(j)]/d.rowMax*100);
+//			})
+//			return d;
+//		})
+//		maxN = 100;
+//	}
 
 	const sx = d3.scaleLinear()
 		.domain([0,maxN])
@@ -48,7 +61,7 @@ export default function stackedBarChart(dom, keys, data){
 		.attr('height', plotHeight>0 ? plotHeight: 20);
 
   const column = svgEnterUpdate.selectAll(".column")
-    .data(stackGenerator(data));
+    .data(stackGenerator(chartData));
 
 	const columnEnter = column.enter()
     .append("g")

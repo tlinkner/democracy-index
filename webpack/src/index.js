@@ -28,8 +28,8 @@ import {
 
 const globalState = {
 	axisToggle: true,
-	metricToggle: true,
-	religion: "muslim"
+	metricToggle: false,
+	religion: "christian"
 }
 
 function setCategoryState(data){
