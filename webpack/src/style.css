@@ -84,8 +84,20 @@ p {
 /* category options -------------------------- */
 
 .category-options {
+	position: relative;
 	display: flex;
 	flex-direction: row;
+}
+
+.category-options-info {
+	position: absolute;
+	text-align: left;
+	position: absolute;
+	top: -25px;
+	left: 170px;
+	width: 158px;
+	font-size: 12px;
+	color: #bbbbbb;
 }
 
 .option {
@@ -142,11 +154,20 @@ input:checked.option-fulldemocracy::after {background: #039447;}
 	position: absolute;
 	top: 0;
 	left: 140px;
-
 	padding: 12px 0;
 	font-size: 12px;
 	line-height: 1em;
 	z-index: +9;
+}
+
+.legend .axis-toggle-info {
+	text-align: right;
+	position: absolute;
+	top: -25px;
+	left: 0;
+	width: 158px;
+	font-size: 12px;
+	color: #bbbbbb;
 }
 
 .legend .axis-toggle input {
@@ -212,7 +233,7 @@ input:checked.option-fulldemocracy::after {background: #039447;}
 	margin: 12px 0;
   width: 240px;
   overflow: hidden;
-  background: #FFFFFF;
+  background: #ffffff;
 }
 
 .ui-menu::after {

@@ -6,7 +6,10 @@ import {makeKey, getMax} from "../util"
 
 function countryMenu(data, country, dispatch){
 
-	const dataSorted = data.sort((a,b)=>a.country - b.country);
+	const dataNested = d3.nest()
+		.key(d=>d.country)
+		.entries(data)
+		.sort((a,b)=>a.country - b.country);
 
 	const menu = d3.select("#indexMenu")
 		.selectAll(".ui-menu")
@@ -20,16 +23,16 @@ function countryMenu(data, country, dispatch){
 	const menuEnterUpdate = menuEnter.merge(menu);
 		
 	menuEnter.selectAll("option")
-    .data(dataSorted)
+    .data(dataNested)
     .enter()
     .append("option")
-    .attr("value", d => d.country)
+    .attr("value", d => d.key)
     .attr("selected", d=>{
-      if (d.country === country){
+      if (d.key === country){
         return "selected"
       }
     })
-    .html(d => d.country);
+    .html(d => d.key);
 		
 	menu.exit().remove();    
     

@@ -1,21 +1,17 @@
 <!doctype html>
 <html lang="en">
 <head>
-<title>Democracy and Reglion</title>
+<title>Exploring Democracy and Reglion</title>
 <meta charset='utf-8'>
 <meta name="viewport" content="width=device-width">
 <link rel="stylesheet" href="./fonts/fonts.css">
 </head>
 <body>
 <div class="intro">
-	<h1>Democracy and Reglion</h1>
-	<div class="columns">
-		<div class="col-left">
-			<p>Democracy Index was created by the Economist Intelligence Unit (http://www.eiu.com/home.aspx). It is a weighted average if indicators in the categories of electoral process and pluralism, civil liberties, functioning of government, political participation, and political culture. Using the index score, regimes are categorized as authoritarian, hybrid, flawed democracy, or full democracy. </p>
-			<p>In the visualization below, I paired the countries in Democracy Index with religious composition data from the Pew Research Center. The legend filters facilitate the comparison of religious populations to the types of regimes. The cartogram displays the geographic distribution. The axis toggle switches the y-axis from a list of religions to countries. </p>
-			<p>Answers the questions: where do people of various religions live and in what types of regimes do they have.</p>
-		</div>
-		<div class="col-right">
+	<h1>Exploring Democracy and Reglion</h1>
+	<div class="column">
+			<p> Where do people practicing various religions live and what types of governments do they live under. By comparing the governmental regimes of countries with their religious populations, we can begin to explore the relationship between religion and democracy. Do some religions correlate with democracy more than others? Are there regional patterns?</p>
+			<aside>
 			<h4>Explore the Democracy Index</h4>
 			<div class="index-explorer">
 				<div id="indexMenu" class="index-menu"></div>
@@ -49,14 +45,19 @@
 					</tr>
 				</table>
 			</div>
+			</aside>
+			<p>The Democracy Index was created by the <a href="http://www.eiu.com/home.aspx
+">Economist Intelligence Unit</a>. It is a weighted average of indicators in the categories of electoral process and pluralism, civil liberties, the functioning of government, political participation, and political culture. Using the index score, governments are categorized as an authoritarian regime, hybrid regime, flawed democracy, or full democracy.</p>
+			<p>In the visualization below, I paired the 167 countries in Democracy Index with religious composition data from the <a href="https://www.pewforum.org/2015/04/02/religious-projection-table/">Pew Research Center</a>. The cartogram displays relative religious populations of counties. The axis toggle switches the y-axis from a list of religions to countries. The interactive legend filters the types of regimes.</p>
 		</div>
-	</div>
 </div>
 <div id="cartogram" class="cartogram"></div>
 <div id="legend" class="legend"></div>
 <div id="stackedbar" class="stackedbar"> </div>
 <footer class="footer">
-	<p><b>Sources:</b> Democracy Index data: <a href=" https://www.eiu.com/topic/democracy-index">Economist Intelligence Unit</a>, Religious Composition by Country, 2010-2050: <a href="https://www.pewforum.org/2015/04/02/religious-projection-table/">Pew Research Center</a></p>
+	<h4>Sources and Credits</h4>
+	<p><b>Democracy Index data:</b> <a href=" https://www.eiu.com/topic/democracy-index">Economist Intelligence Unit</a></p>
+	<p><b>Religious Composition by Country, 2010-2050:</b> <a href="https://www.pewforum.org/2015/04/02/religious-projection-table/">Pew Research Center</a></p>
 	<p><b>Design:</b> <a href="//tlda.co">Todd Linkner</a></p>
 </footer>
 <script src='bundle.js' type='text/javascript'></script>

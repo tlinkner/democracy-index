@@ -8,9 +8,18 @@ import {
 
 export default function renderAxisToggle(data, state, dispatch) {
 
-	const dom = d3.select("#legend")
+	const dom = d3.select("#legend");
+	
+	dom
+		.append("p")
+		.attr("class","axis-toggle-info")
+		.text("Toggle axis")
+		
+	const component = dom
 		.append("div")
 		.attr("class", "axis-toggle")
+		
+	const widget = component
 		.append("input")
 		.attr("type", "checkbox")
 		.attr("id", "axis-toggle")

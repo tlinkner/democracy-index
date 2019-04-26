@@ -13,10 +13,15 @@ export default function renderCategoryOptions(data, state, dispatch) {
 	const categories = getCategoryList(data);
 
 	const dom = d3.select("#legend")
-		.append("div")
+	
+	dom.append("p")
+		.attr("class","category-options-info")
+		.text("Select regime type");
+	
+	const component = dom.append("div")
 		.attr("class", "category-options");
-
-	const option = dom.selectAll(".option")
+		
+	const option = component.selectAll(".option")
 		.data(categories);
 
 	const optionEnter = option.enter()

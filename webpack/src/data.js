@@ -68,9 +68,8 @@ function getReligionData(data, categories){
 			return d;
 		})
 		.sort((a,b)=>a.totalPop-b.totalPop);		
-		
-	return religionData;
 
+	return religionData;
 }
 
 
