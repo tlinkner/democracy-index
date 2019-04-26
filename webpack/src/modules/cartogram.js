@@ -1,6 +1,7 @@
 import * as d3 from "d3";
 import colorMap from "./colorMap";
 import {makeKey} from "../util";
+import {getGlobalState} from "../index"
 import {
 	makeToolTip,
 	destroyToolTip
@@ -11,6 +12,7 @@ import {
 export default function cartogram(dom, data){
 
 	const c = colorMap();
+	const globalState = getGlobalState();
 
 	// set up
 	const w = 760;
@@ -25,29 +27,42 @@ export default function cartogram(dom, data){
 	// scale for dot size
 	const sr = d3.scaleSqrt()
 		.domain([0,2151880000])
-		.range([0,60]);
+		.range([0,70]);
 
 	// projection
 	const projection = d3.geoEquirectangular()
+		.center([30,20])
 		.scale((w/640)*100)
 		.translate([w/2, h/2]);
 		
 	const title = d3.select(dom)
 		.selectAll("h4")
-		.data([1])
-		.enter()
-		.append("h4")
-		.text("Democracy Index Countries By Relative Population");
+		.data([1]);
+
+	const titleEnter = title.enter()
+		.append("h4");
+		
+	title.merge(titleEnter)
+		.text("Democracy Index Countries By Relative Population: ")
+		.append("span")
+		.text(function(){
+			if (globalState.axisToggle===true){
+				return "All Religions"
+			} else {
+				return globalState.religion;
+			}
+		});
 
 	const svg = d3.select(dom)
 		.selectAll('svg')
 		.data([1]);
+		
 	const svgEnter = svg.enter()
 		.append('svg');
 
 	const plot = svg.merge(svgEnter)
 		.attr('width', w)
-		.attr('height', h)
+		.attr('height', h);
 
 	// labels
 	const labels = [
@@ -66,7 +81,7 @@ export default function cartogram(dom, data){
 		.attr("y",d=>projection([d.lng,d.lat])[1])
 		.text(d=>d.txt)
 		.attr("class","cartogram-label")
-		.attr("text-anchor","middle")
+		.attr("text-anchor","middle");
 
 	const dots = plot.selectAll(".dot")
 		.data(data, d=>d.key);
@@ -81,7 +96,6 @@ export default function cartogram(dom, data){
     })
     .on("mouseout", destroyToolTip);
 			
-
 	dots.merge(dotsEnter)
 			.attr("cx",w/2)
 			.attr("cy",h/2)
@@ -91,7 +105,7 @@ export default function cartogram(dom, data){
 				return c.get(k);
 			})
 			.attr("opacity",0.8)
-			.attr("data-country",d=>d.country)
+			.attr("data-country",d=>d.country);
 
 		dots.exit().remove();	
 		

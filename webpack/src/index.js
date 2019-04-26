@@ -1,5 +1,3 @@
-// import ---------------------------------------
-
 import "./style.css";
 import * as d3 from "d3";
 import renderMetricToggle from "./modules/metricToggle";
@@ -62,7 +60,6 @@ democracyDataPromise.then(data => {
 		renderPlots(data, globalState, globalDispatch);
 		updateUI(globalState);
 	})
-
 	globalDispatch.on("change:religion", (data, religion) =>{
 		globalState.axisToggle = false;
 		globalState.religion = religion;
@@ -92,15 +89,14 @@ democracyDataPromise.then(data => {
 
 	// render ui
 	renderCategoryOptions(data, globalState, globalDispatch);
-	// renderMetricToggle(data, globalState, globalDispatch);
 	renderAxisToggle(data, globalState, globalDispatch);
 	renderReligionMenu(data, globalState, globalDispatch);
 	
 	// render explorer
-	globalDispatch.call("change:country",null,"United States")
+	globalDispatch.call("change:country",null,"United States");
 
 	// render plot
-	globalDispatch.call("general:update",null,data)
+	globalDispatch.call("general:update",null,data);
 
 });
 
@@ -117,9 +113,6 @@ function updateUI(state){
 }
 
 function renderPlots(data, state, dispatch) {
-
-// todo, try passing SVGs
-
 
 	let dataFiltered = data;
 
@@ -143,7 +136,7 @@ function renderPlots(data, state, dispatch) {
 			return d;
 		}
 	})
-
+	
 	// cartogram
 	d3.select('#cartogram')
 		.each(function(){
@@ -165,7 +158,7 @@ function renderPlots(data, state, dispatch) {
 				this, // dom
 				getCategoryList(data).map(d=>d.key), // keys
 				getIndexSums(barData,getCategoryList(data).map(d=>d.key))) // data
-		})
+		});
 }
 
 

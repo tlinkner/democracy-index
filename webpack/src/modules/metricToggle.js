@@ -19,7 +19,6 @@ export default function renderMetricToggle(data, state, dispatch) {
 		})
 		.on("change", function () {
 			dispatch.call("change:metric",null,data, this.checked)
-		}
-	)
+		});
 
 }

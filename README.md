@@ -1,1 +1,1 @@
-# democracy-index
+### democracy-index

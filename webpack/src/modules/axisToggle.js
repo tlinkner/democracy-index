@@ -29,5 +29,5 @@ export default function renderAxisToggle(data, state, dispatch) {
 		})
     .on("mouseout", function(){
 			destroyToolTip();
-		})
+		});
 }

@@ -15,7 +15,7 @@ function countryMenu(data, country, dispatch){
 	const menuEnter = menu.enter()
 		.append("div")
 		.attr("class","ui-menu")
-    .append("select")
+    .append("select");
 		
 	const menuEnterUpdate = menuEnter.merge(menu);
 		
@@ -29,16 +29,16 @@ function countryMenu(data, country, dispatch){
         return "selected"
       }
     })
-    .html(d => d.country)
+    .html(d => d.country);
 		
-	menu.exit()
-		.remove();    
+	menu.exit().remove();    
     
 	menuEnter.on('change', function(){
 		dispatch.call('change:country',null,this.value);
 	});
-	
 }
+
+
 
 function indexExplorer(data, country){
 
@@ -47,33 +47,37 @@ function indexExplorer(data, country){
 	const dataFiltered = data.filter(d=>d.country===country)[0];
 	
 	d3.select("#indexCategory")
-		.text(dataFiltered.indexCategory)
+		.text(dataFiltered.indexCategory);
+		
 	d3.select("#indexScore")
-		.text(dataFiltered.indexScore.toFixed(2))
+		.text(dataFiltered.indexScore.toFixed(2));
+		
 	d3.select("#indexPluralism")
-		.text(dataFiltered.indexPluralism.toFixed(2))
+		.text(dataFiltered.indexPluralism.toFixed(2));
+		
 	d3.select("#indexFunctioning")
-		.text(dataFiltered.indexFunctioning.toFixed(2))
+		.text(dataFiltered.indexFunctioning.toFixed(2));
+		
 	d3.select("#indexFunctioning")
-		.text(dataFiltered.indexFunctioning.toFixed(2))
+		.text(dataFiltered.indexFunctioning.toFixed(2));
+		
 	d3.select("#indexParticipation")
-		.text(dataFiltered.indexParticipation.toFixed(2))
+		.text(dataFiltered.indexParticipation.toFixed(2));
+		
 	d3.select("#indexCulture")
-		.text(dataFiltered.indexCulture.toFixed(2))
+		.text(dataFiltered.indexCulture.toFixed(2));
+		
 	d3.select("#indexCivil")
-		.text(dataFiltered.indexCivil.toFixed(2))
+		.text(dataFiltered.indexCivil.toFixed(2));
 
 	const colorCode = c.get(makeKey(dataFiltered.indexCategory));
 
 	d3.select("#indexCategory")
 		.select(function() { return this.parentNode; })
-		.style("background-color",colorCode)
-
+		.style("background-color",colorCode);
 }
 
 
-
-// export --------------------------------------
 
 export {
 	countryMenu,

@@ -4,7 +4,7 @@ export default function colorMap() {
 		["authoritarian","#be202e"],
 		["hybridregime","#ce9a2b"],
 		["flaweddemocracy","#76ac42"],
-		["fulldemocracy","#039447"]
+		["fulldemocracy","#008a3a"]
 	]);
 	
 	return colorMap;

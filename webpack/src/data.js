@@ -21,6 +21,8 @@ function getReligionList(data){
 	return religionData;
 }
 
+
+
 function getCategoryList(data){
 
 	const categories = d3.nest()
@@ -31,6 +33,8 @@ function getCategoryList(data){
 
 	return categories;
 }
+
+
 
 function getCountryData(data){
 
@@ -50,6 +54,8 @@ function getCountryData(data){
 	return countryData;
 }
 
+
+
 function getReligionData(data, categories){
 
 	const religionData = d3.nest()
@@ -67,6 +73,8 @@ function getReligionData(data, categories){
 
 }
 
+
+
 function getIndexSums(data,categories){
 
 	const simplifiedData = data.map(d=>{
@@ -81,6 +89,7 @@ function getIndexSums(data,categories){
 }
 
 
+
 export {
   democracyDataPromise, 
 	getReligionList, 
@@ -89,4 +98,3 @@ export {
 	getReligionData,
 	getIndexSums
 }
-

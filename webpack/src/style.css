@@ -1,4 +1,4 @@
-* {box-sizing: border-box;}
+* { box-sizing: border-box; }
 
 body {
 	font-family: "IBM Plex Sans", sans-serif;
@@ -35,7 +35,7 @@ p {
 
 
 
-/* layout */
+/* layout ------------------------------------ */
 
 .intro {
 	margin: 2em auto;
@@ -83,7 +83,7 @@ p {
 
 
 
-/* category options */
+/* category options -------------------------- */
 
 .category-options {
 	display: flex;
@@ -134,7 +134,7 @@ input:checked.option-fulldemocracy::after {background: #039447;}
 
 
 
-/* legend */
+/* legend ------------------------------------ */
 
 .legend {
 	position: relative;
@@ -182,22 +182,18 @@ input:checked.option-fulldemocracy::after {background: #039447;}
 
 
 
-/* cartogram */
+/* cartogram --------------------------------- */
 
 .cartogram-label {
 	font-family: "IBM Plex Sans Condensed", sans-serif; /* todo: font imports */
-	font-size: 12px;
+	font-size: 16px;
 	text-transform: uppercase;
 	fill: #aaaaaa;
 }
 
 
 
-/* stacked bar */
-
-.stackedbar {
-
-}
+/* stacked bar ------------------------------- */
 
 .stackedbar text {
 	font-family: "IBM Plex Sans Condensed", sans-serif; /* todo: font imports */
@@ -210,7 +206,8 @@ input:checked.option-fulldemocracy::after {background: #039447;}
 }
 
 
-/* religion menu */
+
+/* religion menu ----------------------------- */
 
 .ui-menu {
   position: relative;
@@ -262,7 +259,8 @@ input:checked.option-fulldemocracy::after {background: #039447;}
 }
 
 
-/* index table */
+
+/* index table ------------------------------- */
 
 .index-explorer {
   width: 240px;
@@ -303,7 +301,8 @@ input:checked.option-fulldemocracy::after {background: #039447;}
 }
 
 
-/* tooltip */
+
+/* tooltip ----------------------------------- */
 
 .tooltip {
   position: absolute;
@@ -313,3 +312,4 @@ input:checked.option-fulldemocracy::after {background: #039447;}
   background: #EEEEEE;
   z-index: +9;
 }
+

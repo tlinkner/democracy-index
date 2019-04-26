@@ -40,7 +40,7 @@ export default function renderCategoryOptions(data, state, dispatch) {
 		})
     .on("mouseout", function(){
 			destroyToolTip();
-		})
+		});
 
 	const label = optionEnter.append("label")
 		.attr("for", d => makeKey(d.key))

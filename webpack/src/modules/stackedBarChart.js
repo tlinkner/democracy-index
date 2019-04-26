@@ -10,11 +10,11 @@ export default function stackedBarChart(dom, keys, data){
 
 	const c = colorMap();
 
-	const nRows = data.length
+	const nRows = data.length;
 	const rowHeight = 20;
 	const rowMargin = 5;
 	const plotWidth = 1100;
-	const plotHeight = (nRows * rowHeight) + ((nRows - 1) * rowMargin)
+	const plotHeight = (nRows * rowHeight) + ((nRows - 1) * rowMargin);
 
 	const sy = d3.scaleBand()
 		.domain(data.map(d=>d.key))
@@ -25,30 +25,19 @@ export default function stackedBarChart(dom, keys, data){
 	
 	let maxN = getMax(data, keys.map(d=>makeKey(d)));
 	
-// kind of a hack. 
-// the beginnings of compositino/count toggle
-//	if (globalState.metricToggle === true) {
-		if (globalState.axisToggle === true) {
-			maxN = 2151880000;
-		} else {
-			maxN = 700680000;
-		}
-//	} else {
-//		chartData = data.map(d=>{
-//			keys.forEach(j=>{
-//				d[makeKey(j)] = Math.round(d[makeKey(j)]/d.rowMax*100);
-//			})
-//			return d;
-//		})
-//		maxN = 100;
-//	}
+	// kind of a hack. 
+	if (globalState.axisToggle === true) {
+		maxN = 2151880000;
+	} else {
+		maxN = 700680000;
+	}
 
 	const sx = d3.scaleLinear()
 		.domain([0,maxN])
-		.range([0,760])
+		.range([0,760]);
 
 	const stackGenerator = d3.stack()
-		.keys(keys.map(d=>makeKey(d)))
+		.keys(keys.map(d=>makeKey(d)));
 
 	const svg = d3.select(dom)
 		.selectAll("svg")
@@ -76,14 +65,14 @@ export default function stackedBarChart(dom, keys, data){
 
 	const rowEnter = row.enter()
     .append("rect")
-		.attr("class","row")
+		.attr("class","row");
 
 	row.merge(rowEnter)
 		.attr("x",d=>sx(d[0]))
 		.attr("y",d=>sy(d.data.key))
 		.attr("width",d=>sx(d[1])-sx(d[0]))
 		.attr("height",sy.bandwidth())
-		.attr("data-foo",d=>d.data.key)
+		.attr("data-foo",d=>d.data.key);
 
 	row.exit().remove();
 	
@@ -93,23 +82,22 @@ export default function stackedBarChart(dom, keys, data){
 	axisXGenerator.scale(sx);
 	axisYGenerator.scale(sy);
 	
-	
 	let axisX = svgEnter.append('g')
 		.attr('class','axis axis-x')
 		.attr('transform', `translate(170,20)`);
+		
 	let axisY = svgEnter.append('g')
 		.attr('class','axis axis-y')
 		.attr('transform', `translate(170,20)`);
 		
-		svgEnter.merge(svg)
-			.select('.axis-x')
-			.call(axisXGenerator)
+	svgEnter.merge(svg)
+		.select('.axis-x')
+		.call(axisXGenerator);
 
-		svgEnter.merge(svg)
-			.select('.axis-y')
-			.call(axisYGenerator)
+	svgEnter.merge(svg)
+		.select('.axis-y')
+		.call(axisYGenerator);
 
 	d3.selectAll(".domain").remove()
-	d3.selectAll(".axis-y .tick line").remove()
-	
+	d3.selectAll(".axis-y .tick line").remove();
 }
