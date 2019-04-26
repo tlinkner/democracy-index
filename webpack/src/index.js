@@ -167,3 +167,15 @@ function renderPlots(data, state, dispatch) {
 				getIndexSums(barData,getCategoryList(data).map(d=>d.key))) // data
 		})
 }
+
+
+
+// export ---------------------------------------
+
+function getGlobalState(){
+	return globalState;
+}
+
+export {
+	getGlobalState
+}

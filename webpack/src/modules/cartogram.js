@@ -17,11 +17,14 @@ export default function cartogram(dom, data){
 	const h = 320;
 
 	// max
-	const maxTotalPop = d3.max(data, d=>d.totalPop);
+	 const maxTotalPop = d3.max(data, d=>d.totalPop);
+	// It workd better here to adjust relative sizes for the data.
+	// Otherwise small populations aren't visible.
+	// const maxTotalPop = 2151880000
 
 	// scale for dot size
 	const sr = d3.scaleSqrt()
-		.domain([0,maxTotalPop])
+		.domain([0,2151880000])
 		.range([0,30]);
 
 	// projection

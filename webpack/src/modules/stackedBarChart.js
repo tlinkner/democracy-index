@@ -1,5 +1,6 @@
 import * as d3 from "d3";
 import colorMap from "./colorMap";
+import {getGlobalState} from "../index"
 import {makeKey, getMax} from "../util"
 
 
@@ -18,7 +19,18 @@ export default function stackedBarChart(dom, keys, data){
 		.range([plotHeight,0])
 		.paddingInner(rowMargin/rowHeight);
 
-	const maxN = getMax(data, keys.map(d=>makeKey(d)));
+	const globalState = getGlobalState();
+	
+	let maxN = getMax(data, keys.map(d=>makeKey(d)));
+	
+	console.log(maxN)
+
+	// kind of a hack. 
+	if (globalState.axisToggle === true) {
+		maxN = 2151880000;
+	} else {
+		maxN = 700680000;
+	}
 
 	const sx = d3.scaleLinear()
 		.domain([0,maxN])
@@ -33,7 +45,7 @@ export default function stackedBarChart(dom, keys, data){
 		.append("svg");
 	const svgEnterUpdate = svg.merge(svgEnter)
 		.attr('width', plotWidth)
-		.attr('height', plotHeight>0 ? plotHeight: 10);
+		.attr('height', plotHeight>0 ? plotHeight: 20);
 
   const column = svgEnterUpdate.selectAll(".column")
     .data(stackGenerator(data));
