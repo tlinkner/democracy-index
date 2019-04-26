@@ -11,7 +11,7 @@ module.exports = merge(common, {
 			'process.env': {'NODE_ENV':JSON.stringify('production')}
 		}),
     new CopyPlugin([
-      { from: 'dist', to: "../docs" }
+      { from: 'dist', to: "/Users/todd/Projects/democracy-index/docs" }
     ])
 	],
 	optimization: {
