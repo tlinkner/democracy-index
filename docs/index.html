@@ -1,14 +1,64 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<meta http-equiv="X-UA-Compatible" content="ie=edge">
-	<title>Document</title>
+<title>Democracy Index</title>
+<meta charset='utf-8'>
+<meta name="viewport" content="width=device-width">
+<link rel="stylesheet" href="./fonts/fonts.css">
 </head>
 <body>
-
-<h1>Test 123</h1>
-
+<div class="intro">
+	<h1>Democracy and Reglion</h1>
+	<div class="columns">
+		<div class="col-left">
+			<p>Democracy Index was created by the Economist Intelligence Unit (http://www.eiu.com/home.aspx). It is a weighted average if indicators in the categories of electoral process and pluralism, civil liberties, functioning of government, political participation, and political culture. Using the index score, regimes are categorized as authoritarian, hybrid, flawed democracy, or full democracy. </p>
+			<p>In the visualization below, I paired the countries in Democracy Index with religious composition data from the Pew Research Center. The legend filters facilitate the comparison of religious populations to the types of regimes. The cartogram displays the geographic distribution. The axis toggle switches the y-axis from a list of religions to countries. </p>
+			<p>Answers the questions: where do people of various religions live and in what types of regimes do they have.</p>
+		</div>
+		<div class="col-right">
+			<h4>Explore the Democracy Index</h4>
+			<div class="index-explorer">
+				<div id="indexMenu" class="index-menu"></div>
+				<table class="index-table">
+					<tr>
+						<td colspan="2"><span id="indexCategory">Regime Type</span></td>
+					</tr>
+					<tr>
+						<td><span id="indexScore">0</span></td>
+						<th>Score</th>
+					</tr>
+					<tr>
+						<td><span id="indexPluralism">0</span></td>
+						<td>Electoral process and pluralism</td>
+					</tr>
+					<tr>
+						<td><span id="indexFunctioning">0</span></td>
+						<td>Functioning of government</td>
+					</tr>
+					<tr>
+						<td><span id="indexParticipation">0</span></td>
+						<td>Political participation</td>
+					</tr>
+					<tr>
+						<td><span id="indexCulture">0</span></td>
+						<td>Political culture</td>
+					</tr>
+					<tr>
+						<td><span id="indexCivil">0</span></td>
+						<td>Civil liberties</td>
+					</tr>
+				</table>
+			</div>
+		</div>
+	</div>
+</div>
+<div id="cartogram" class="cartogram"></div>
+<div id="legend" class="legend"></div>
+<div id="stackedbar" class="stackedbar"> </div>
+<footer class="footer">
+	<p><b>Sources:</b> Democracy Index data: <a href=" https://www.eiu.com/topic/democracy-index">Economist Intelligence Unit</a>, Religious Composition by Country, 2010-2050: <a href="https://www.pewforum.org/2015/04/02/religious-projection-table/">Pew Research Center</a></p>
+	<p><b>Design:</b> <a href="//tlda.co">Todd Linkner</a></p>
+</footer>
+<script src='bundle.js' type='text/javascript'></script>
 </body>
 </html>
