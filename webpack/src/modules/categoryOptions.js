@@ -1,6 +1,10 @@
 import * as d3 from "d3";
 import {getReligionList, getCategoryList} from "../data";
 import {makeKey, unmakeKey} from "../util";
+import {
+	makeToolTip,
+	destroyToolTip
+} from "./toolTip";
 
 
 
@@ -30,7 +34,13 @@ export default function renderCategoryOptions(data, state, dispatch) {
 		.attr("class", d => `option-${makeKey(d.key)}`)
 		.on("change", function () {
 			dispatch.call("change:category",null,data, d3.select(this).attr("id"))
-		});
+		})
+		.on("mouseover",function(){
+			makeToolTip("Toggle regime type");
+		})
+    .on("mouseout", function(){
+			destroyToolTip();
+		})
 
 	const label = optionEnter.append("label")
 		.attr("for", d => makeKey(d.key))

@@ -1,4 +1,8 @@
 import * as d3 from "d3";
+import {
+	makeToolTip,
+	destroyToolTip
+} from "./toolTip";
 
 
 
@@ -19,7 +23,11 @@ export default function renderAxisToggle(data, state, dispatch) {
 		})
 		.on("change", function () {
 			dispatch.call("change:axis",null,data, this.checked)
-		}
-	)
-
+		})
+		.on("mouseover",function(){
+			makeToolTip("Switch chart axes");
+		})
+    .on("mouseout", function(){
+			destroyToolTip();
+		})
 }

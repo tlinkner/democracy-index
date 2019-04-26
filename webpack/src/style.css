@@ -27,6 +27,12 @@ a:hover {
 	color: #039447;
 }
 
+p {
+-webkit-hyphens: auto;
+   -moz-hyphens: auto;
+        hyphens: auto;
+}
+
 
 
 /* layout */
