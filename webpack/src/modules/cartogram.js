@@ -82,7 +82,7 @@ export default function cartogram(dom, data){
 		.text(d=>d.txt)
 		.attr("class","cartogram-label")
 		.attr("text-anchor","middle");
-
+		
 	const dots = plot.selectAll(".dot")
 		.data(data, d=>d.key);
 		
@@ -96,7 +96,7 @@ export default function cartogram(dom, data){
     })
     .on("mouseout", destroyToolTip);
 			
-	dots.merge(dotsEnter)
+	const dotsEnterUpdate = dots.merge(dotsEnter)
 			.attr("cx",w/2)
 			.attr("cy",h/2)
 			.attr("r", d=>sr(d.totalPop))
@@ -105,25 +105,46 @@ export default function cartogram(dom, data){
 				return c.get(k);
 			})
 			.attr("opacity",0.8)
-			.attr("data-country",d=>d.country);
+			.attr("data-country",d=>d.country)
+			.call(d3.drag() // just for fun.
+					.on("start", dragstarted)
+					.on("drag", dragged)
+					.on("end", dragended));    
 
 		dots.exit().remove();	
 		
-	const simulation = d3.forceSimulation();
+	const simulation = d3.forceSimulation(data);
 	const forceX = d3.forceX().x(d=>projection([d.lng,d.lat])[0]);
 	const forceY = d3.forceY().y(d=>projection([d.lng,d.lat])[1]);
+	const forceCenter = d3.forceCenter(w / 2, h / 2);
 	const forceCollide = d3.forceCollide().radius(d=>sr(d.totalPop)+2);
 	simulation
 		.force('x', forceX)
 		.force('y', forceY)
+		.force('center', forceCenter)
 		.force('collide', forceCollide);
 
 	simulation.on('tick', () => {
-			dots.merge(dotsEnter)
+			dotsEnterUpdate
 				.attr('cx', d => d.x)
 				.attr('cy', d => d.y);
-		})
-		.nodes(data, d=>d.key);
+		});
+		
+	function dragstarted(d) {
+			if (!d3.event.active) simulation.alphaTarget(0.3).restart();
+			d.fx = d.x;
+			d.fy = d.y;
+	}
 
+	function dragged(d) {
+			d.fx = d3.event.x;
+			d.fy = d3.event.y;
+	}
+
+	function dragended(d) {
+			if (!d3.event.active) simulation.alphaTarget(0);
+			d.fx = null;
+			d.fy = null;
+	} 
 }
 
